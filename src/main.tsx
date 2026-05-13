@@ -6,6 +6,7 @@ import {
     createRouter
 } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
+import "./index.css";
 
 const hashHistory = createHashHistory();
 const router = createRouter({ routeTree, history: hashHistory });
