@@ -105,7 +105,7 @@ body,
 body {
     margin: 0;
     font-family: "Phantom", sans-serif;
-    background-color: var(--color-dark-850);
+    background-color: var(--color-dark-800);
     color: white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
