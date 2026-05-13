@@ -93,10 +93,18 @@
     }
 }
 
+html,
+body,
+#root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
 body {
     margin: 0;
     font-family: "Phantom", sans-serif;
-    height: 100%;
     background-color: var(--color-dark-950);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

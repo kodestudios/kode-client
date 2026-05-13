@@ -39,12 +39,10 @@ export default function LayoutHeader() {
         await appWindow.close();
     };
 
-    const hasRightWindowControls = os === "windows" || os === "linux";
-
     return (
         <header
             data-tauri-drag-region
-            className="flex h-9 shrink-0 items-center justify-between border-b border-dark-700 pl-4"
+            className="flex h-9 shrink-0 items-center justify-between pl-4"
             onDoubleClick={() => {
                 void handleMaximize();
             }}
@@ -73,38 +71,38 @@ export default function LayoutHeader() {
                     </div>
                 )}
             </div>
+            <div className="flex items-center gap-2"></div>
             <div className="flex-1" />
+            <div className="flex items-center gap-2"></div>
             <div className="flex items-stretch self-stretch">
-                {hasRightWindowControls && (
-                    <div className="flex items-stretch self-stretch pl-2">
-                        <WindowControlButton
-                            onClick={() => {
-                                void handleMinimize();
-                            }}
-                        >
-                            <MinusIcon className="size-3.5" weight="bold" />
-                        </WindowControlButton>
-                        <WindowControlButton
-                            onClick={() => {
-                                void handleMaximize();
-                            }}
-                        >
-                            {isMaximized ? (
-                                <CopyIcon className="size-3.5" weight="bold" />
-                            ) : (
-                                <SquareIcon className="size-3.5" weight="bold" />
-                            )}
-                        </WindowControlButton>
-                        <WindowControlButton
-                            danger
-                            onClick={() => {
-                                void handleClose();
-                            }}
-                        >
-                            <XIcon className="size-3.5" weight="bold" />
-                        </WindowControlButton>
-                    </div>
-                )}
+                <div className="flex items-stretch self-stretch pl-2">
+                    <WindowControlButton
+                        onClick={() => {
+                            void handleMinimize();
+                        }}
+                    >
+                        <MinusIcon className="size-3.5" weight="bold" />
+                    </WindowControlButton>
+                    <WindowControlButton
+                        onClick={() => {
+                            void handleMaximize();
+                        }}
+                    >
+                        {isMaximized ? (
+                            <CopyIcon className="size-3.5" weight="bold" />
+                        ) : (
+                            <SquareIcon className="size-3.5" weight="bold" />
+                        )}
+                    </WindowControlButton>
+                    <WindowControlButton
+                        danger
+                        onClick={() => {
+                            void handleClose();
+                        }}
+                    >
+                        <XIcon className="size-3.5" weight="bold" />
+                    </WindowControlButton>
+                </div>
             </div>
         </header>
     );
