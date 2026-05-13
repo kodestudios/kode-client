@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "dev:local": "tauri dev --config src-tauri/tauri.localdev.json",
+        "dev:local": "tauri dev --config src-tauri/tauri.dev.conf.json",
         "dev:prod": "tauri dev",
         "build": "tsc && vite build",
         "preview": "vite preview",
