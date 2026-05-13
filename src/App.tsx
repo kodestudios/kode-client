@@ -1,6 +1,11 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/core";
+import {
+  RocketLaunchIcon,
+  SparkleIcon,
+  TerminalWindowIcon,
+} from "@phosphor-icons/react";
+import { Avatar, Button, Input } from "@/components/ui";
 import "./App.css";
 
 function App() {
@@ -8,42 +13,68 @@ function App() {
   const [name, setName] = useState("");
 
   async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
+    setGreetMsg(await invoke<string>("greet", { name }));
   }
 
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+    <main className="min-h-full bg-dark-950 px-6 py-10 text-dark-50">
+      <section className="mx-auto flex max-w-2xl flex-col gap-8 rounded-sm border border-dark-700 bg-dark-900/80 p-8 shadow-2xl shadow-black/30">
+        <div className="flex items-center gap-4">
+          <Avatar size="lg">
+            <Avatar.Fallback>K</Avatar.Fallback>
+          </Avatar>
+          <div>
+            <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.2em] text-dark-200">
+              <SparkleIcon className="size-3.5" weight="bold" />
+              kode-client
+            </p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+              Tailwind UI kit is wired up.
+            </h1>
+          </div>
+        </div>
 
-      <div className="row">
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
+        <div className="grid gap-3 rounded-xs border border-dark-700 bg-dark-850 p-4 text-sm text-dark-100">
+          <p className="flex items-center gap-2">
+            <RocketLaunchIcon className="size-4 text-primary-300" weight="bold" />
+            Components copied from kode-web.
+          </p>
+          <p className="flex items-center gap-2">
+            <TerminalWindowIcon className="size-4 text-primary-300" weight="bold" />
+            Phosphor icons and Tailwind v4 are available.
+          </p>
+        </div>
 
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
+        <form
+          className="flex flex-col gap-3 sm:flex-row"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void greet();
+          }}
+        >
+          <Input
+            size="lg"
+            value={name}
+            onChange={(e) => setName(e.currentTarget.value)}
+            placeholder="Enter a name..."
+            wrapperClassName="sm:flex-1"
+          />
+          <Button
+            type="submit"
+            size="lg"
+            variant="primary"
+            rightIcon={<RocketLaunchIcon className="size-4" weight="bold" />}
+          >
+            Greet
+          </Button>
+        </form>
+
+        {greetMsg && (
+          <p className="rounded-xs border border-dark-700 bg-dark-800 px-3 py-2 text-sm text-dark-100">
+            {greetMsg}
+          </p>
+        )}
+      </section>
     </main>
   );
 }
