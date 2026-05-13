@@ -8,6 +8,7 @@ export default function LayoutHeader() {
     const os = useOS();
     const [isMaximized, setIsMaximized] = useState(false);
     const appWindow = getCurrentWindow();
+    const hasRightWindowControls = os === "windows" || os === "linux";
 
     useEffect(() => {
         const checkMaximized = async () => {
@@ -75,34 +76,39 @@ export default function LayoutHeader() {
             <div className="flex-1" />
             <div className="flex items-center gap-2"></div>
             <div className="flex items-stretch self-stretch">
-                <div className="flex items-stretch self-stretch pl-2">
-                    <WindowControlButton
-                        onClick={() => {
-                            void handleMinimize();
-                        }}
-                    >
-                        <MinusIcon className="size-3.5" weight="bold" />
-                    </WindowControlButton>
-                    <WindowControlButton
-                        onClick={() => {
-                            void handleMaximize();
-                        }}
-                    >
-                        {isMaximized ? (
-                            <CopyIcon className="size-3.5" weight="bold" />
-                        ) : (
-                            <SquareIcon className="size-3.5" weight="bold" />
-                        )}
-                    </WindowControlButton>
-                    <WindowControlButton
-                        danger
-                        onClick={() => {
-                            void handleClose();
-                        }}
-                    >
-                        <XIcon className="size-3.5" weight="bold" />
-                    </WindowControlButton>
-                </div>
+                {hasRightWindowControls && (
+                    <div className="flex items-stretch self-stretch pl-2">
+                        <WindowControlButton
+                            onClick={() => {
+                                void handleMinimize();
+                            }}
+                        >
+                            <MinusIcon className="size-3.5" weight="bold" />
+                        </WindowControlButton>
+                        <WindowControlButton
+                            onClick={() => {
+                                void handleMaximize();
+                            }}
+                        >
+                            {isMaximized ? (
+                                <CopyIcon className="size-3.5" weight="bold" />
+                            ) : (
+                                <SquareIcon
+                                    className="size-3.5"
+                                    weight="bold"
+                                />
+                            )}
+                        </WindowControlButton>
+                        <WindowControlButton
+                            danger
+                            onClick={() => {
+                                void handleClose();
+                            }}
+                        >
+                            <XIcon className="size-3.5" weight="bold" />
+                        </WindowControlButton>
+                    </div>
+                )}
             </div>
         </header>
     );
