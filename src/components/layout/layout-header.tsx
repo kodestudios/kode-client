@@ -43,7 +43,7 @@ export default function LayoutHeader() {
     return (
         <header
             data-tauri-drag-region
-            className="flex h-9 shrink-0 items-center justify-between pl-4"
+            className="flex h-8 shrink-0 items-center justify-between pl-4"
             onDoubleClick={() => {
                 void handleMaximize();
             }}
