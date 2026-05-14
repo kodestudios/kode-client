@@ -84,14 +84,20 @@ jobs:
                   # Updater signing (required so latest.json contains valid signatures).
                   TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
                   TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-                  # macOS code signing + notarization (optional; without these the
-                  # app installs fine but users see a Gatekeeper warning).
-                  APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
-                  APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-                  APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
-                  APPLE_ID: ${{ secrets.APPLE_ID }}
-                  APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-                  APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+                  # ----------------------------------------------------------------
+                  # macOS code signing + notarization. Leave commented out until you
+                  # have an Apple Developer Program membership and have added every
+                  # secret below. Passing them as empty strings (which happens when
+                  # the secret doesn't exist) makes tauri-bundler try to codesign
+                  # with an empty identity and fail with `security: SecKeychainItem
+                  # Import` errors. So either uncomment the whole block once every
+                  # secret is set, or leave it all commented.
+                  # APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+                  # APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+                  # APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+                  # APPLE_ID: ${{ secrets.APPLE_ID }}
+                  # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+                  # APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
               with:
                   releaseId: ${{ needs.create-release.outputs.release_id }}
                   args: ${{ matrix.args }}

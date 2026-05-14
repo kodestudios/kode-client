@@ -1,4 +1,6 @@
 mod commands;
+
+#[cfg(target_os = "macos")]
 mod menu;
 
 use commands::{open_folder, read_directory};
@@ -16,6 +18,11 @@ pub fn run() {
             .plugin(tauri_plugin_process::init());
     }
 
+    #[cfg(target_os = "macos")]
+    {
+        builder = builder.on_menu_event(menu::handle_menu_event);
+    }
+
     builder
         .invoke_handler(tauri::generate_handler![open_folder, read_directory])
         .setup(|app| {
@@ -30,7 +37,6 @@ pub fn run() {
             }
             Ok(())
         })
-        .on_menu_event(menu::handle_menu_event)
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
