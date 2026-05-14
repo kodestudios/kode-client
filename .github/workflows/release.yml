@@ -17,25 +17,39 @@ jobs:
         outputs:
             release_id: ${{ steps.create.outputs.result }}
             version: ${{ steps.version.outputs.version }}
+            tag: ${{ steps.version.outputs.tag }}
         steps:
             - uses: actions/checkout@v4
 
-            - name: Read app version
+            - name: Resolve release tag
               id: version
               run: |
                   VERSION=$(node -p "require('./package.json').version")
-                  echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+                  # On a tag push GITHUB_REF looks like `refs/tags/v1.2.3`; on a
+                  # manual `workflow_dispatch` it points at the branch ref, so we
+                  # fall back to `v<package.json version>`. createRelease will
+                  # create the tag on the default branch if it does not exist.
+                  if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+                      TAG="${GITHUB_REF#refs/tags/}"
+                  else
+                      TAG="v${VERSION}"
+                  fi
+                  echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+                  echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
             - name: Create draft release
               id: create
               uses: actions/github-script@v7
+              env:
+                  RELEASE_TAG: ${{ steps.version.outputs.tag }}
+                  RELEASE_VERSION: ${{ steps.version.outputs.version }}
               with:
                   script: |
                       const { data } = await github.rest.repos.createRelease({
                           owner: context.repo.owner,
                           repo: context.repo.repo,
-                          tag_name: context.ref.replace("refs/tags/", ""),
-                          name: `Kode v${{ steps.version.outputs.version }}`,
+                          tag_name: process.env.RELEASE_TAG,
+                          name: `Kode v${process.env.RELEASE_VERSION}`,
                           body: "See assets below to install Kode.",
                           draft: true,
                           prerelease: false
@@ -49,14 +63,22 @@ jobs:
             fail-fast: false
             matrix:
                 include:
+                    # Universal macOS binary: built on the Apple Silicon runner
+                    # and cross-compiled to x86_64 in the same job, so a single
+                    # DMG works on both architectures. Tauri's updater publishes
+                    # the universal artifact under both `darwin-aarch64` and
+                    # `darwin-x86_64` entries in latest.json automatically.
                     - platform: macos-14
-                      args: "--target aarch64-apple-darwin"
-                    - platform: macos-13
-                      args: "--target x86_64-apple-darwin"
+                      args: "--target universal-apple-darwin"
+                      rust-targets: "aarch64-apple-darwin,x86_64-apple-darwin"
                     - platform: windows-latest
                       args: ""
+                      rust-targets: ""
 
         runs-on: ${{ matrix.platform }}
+        # Fail fast if a runner pool ever stops accepting jobs again instead of
+        # blocking the release indefinitely.
+        timeout-minutes: 60
 
         steps:
             - uses: actions/checkout@v4
@@ -64,7 +86,7 @@ jobs:
             - name: Install Rust stable
               uses: dtolnay/rust-toolchain@stable
               with:
-                  targets: ${{ matrix.platform == 'macos-14' && 'aarch64-apple-darwin' || matrix.platform == 'macos-13' && 'x86_64-apple-darwin' || '' }}
+                  targets: ${{ matrix.rust-targets }}
 
             - name: Setup Bun
               uses: oven-sh/setup-bun@v2
