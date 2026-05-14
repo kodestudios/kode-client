@@ -12,8 +12,13 @@ pub const MENU_COMMAND_EVENT: &str = "menu:command";
 /// Builds the application menu. Only meaningful on macOS — Windows/Linux
 /// hide the OS menu since the app uses a custom titlebar.
 pub fn build_app_menu<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<Menu<R>> {
+    let check_for_updates =
+        MenuItemBuilder::with_id("cmd.app.checkForUpdates", "Check for Updates…").build(app)?;
+
     let app_submenu = SubmenuBuilder::new(app, "Kode")
         .about(None)
+        .separator()
+        .item(&check_for_updates)
         .separator()
         .services()
         .separator()

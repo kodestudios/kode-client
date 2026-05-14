@@ -1,3 +1,4 @@
+import { GeneralSettings } from "@/features/updater";
 import {
     settingsCategories,
     type SettingsCategory
@@ -17,11 +18,15 @@ export function SettingsContent({ activeCategory }: SettingsContentProps) {
             <h2 className="text-sm font-medium text-dark-50">
                 {activeCategoryLabel}
             </h2>
-            <p className="mt-1 text-xs text-dark-200">
-                {activeCategory === "general"
-                    ? "General settings will appear here."
-                    : "Account settings will appear here."}
-            </p>
+            <div className="mt-3">
+                {activeCategory === "general" ? (
+                    <GeneralSettings />
+                ) : (
+                    <p className="text-xs text-dark-200">
+                        Account settings will appear here.
+                    </p>
+                )}
+            </div>
         </section>
     );
 }

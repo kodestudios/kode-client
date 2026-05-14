@@ -7,6 +7,7 @@ import {
     useKeymaps,
     useMenuEvents
 } from "@/features/keymaps";
+import { useAutoUpdateCheck } from "@/features/updater";
 
 initializeKeymaps();
 
@@ -14,6 +15,7 @@ export default function App() {
     useKeymaps();
     useMenuEvents();
     useKeymapContextSync();
+    useAutoUpdateCheck();
 
     return (
         <Layout>

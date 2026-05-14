@@ -1,6 +1,7 @@
 import type { Command } from "../types";
 import { keymapRegistry } from "../utils/registry";
 import { openSettingsAction } from "@/features/settings";
+import { checkForUpdatesAction } from "@/features/updater";
 import {
     closeWorkspaceFolderAction,
     openWorkspaceFolderAction
@@ -33,7 +34,22 @@ const settingsCommands: Command[] = [
     }
 ];
 
-const allCommands: Command[] = [...workspaceCommands, ...settingsCommands];
+const updaterCommands: Command[] = [
+    {
+        id: "app.checkForUpdates",
+        title: "Check for Updates…",
+        category: "Application",
+        execute: () => {
+            void checkForUpdatesAction();
+        }
+    }
+];
+
+const allCommands: Command[] = [
+    ...workspaceCommands,
+    ...settingsCommands,
+    ...updaterCommands
+];
 
 export function registerCommands(): void {
     for (const command of allCommands) {
