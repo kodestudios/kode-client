@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import {
     checkForUpdates,
     downloadAndInstallPendingUpdate,
@@ -28,29 +28,32 @@ export function useAutoUpdateCheck(): void {
             const update = await checkForUpdates({ silent: true });
             if (cancelled || !update) return;
 
-            toast.message(`Update available · v${update.version}`, {
+            toast.info({
+                title: `Update available · v${update.version}`,
                 id: TOAST_ID,
                 description: "A new version of Kode is ready to install.",
-                duration: Infinity,
-                action: {
-                    label: "Update",
-                    onClick: () => {
-                        toast.dismiss(TOAST_ID);
-                        void downloadAndInstallPendingUpdate().catch((err) => {
-                            const message =
-                                err instanceof Error ? err.message : String(err);
-                            toast.error("Update failed", {
-                                description: message
+                actions: [
+                    {
+                        label: "Update",
+                        onClick: () => {
+                            void downloadAndInstallPendingUpdate().catch((err) => {
+                                const message =
+                                    err instanceof Error ? err.message : String(err);
+                                toast.error({
+                                    title: "Update failed",
+                                    description: message
+                                });
                             });
-                        });
+                        }
+                    },
+                    {
+                        label: "Not now",
+                        onClick: ({ dismiss }) => {
+                            dismiss();
+                        },
+                        variant: "secondary"
                     }
-                },
-                cancel: {
-                    label: "Not now",
-                    onClick: () => {
-                        toast.dismiss(TOAST_ID);
-                    }
-                }
+                ]
             });
         })();
 

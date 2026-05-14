@@ -114,7 +114,8 @@ function showToast(kind: ToastKind, data: ToastData) {
             id,
             duration: persistent ? Infinity : data.duration,
             dismissible: !persistent,
-            position: "bottom-right"
+            position: "bottom-right",
+            unstyled: true
         }
     );
 

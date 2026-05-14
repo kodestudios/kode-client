@@ -1,4 +1,4 @@
-import { UpdateSettingsCard } from "./update-settings-card";
+import { UpdateSettingsCard } from "@/features/updater/components/update-settings-card";
 
 export function GeneralSettings() {
     return (

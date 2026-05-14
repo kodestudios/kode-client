@@ -21,7 +21,7 @@ export function SettingsItem({
     return (
         <div
             className={cn(
-                "flex items-start justify-between gap-4 rounded-sm border border-dark-700 bg-dark-800/40 px-3 py-2.5",
+                "flex items-center justify-between gap-4 p-2.5",
                 className
             )}
         >

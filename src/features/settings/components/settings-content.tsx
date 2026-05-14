@@ -1,23 +1,13 @@
-import { GeneralSettings } from "@/features/updater";
-import {
-    settingsCategories,
-    type SettingsCategory
-} from "./settings-categories";
+import type { SettingsCategory } from "./settings-categories";
+import { GeneralSettings } from "./general-settings";
 
 type SettingsContentProps = {
     activeCategory: SettingsCategory;
 };
 
 export function SettingsContent({ activeCategory }: SettingsContentProps) {
-    const activeCategoryLabel = settingsCategories.find(
-        (category) => category.id === activeCategory
-    )?.label;
-
     return (
-        <section className="min-w-0 flex-1 overflow-auto pl-4">
-            <h2 className="text-sm font-medium text-dark-50">
-                {activeCategoryLabel}
-            </h2>
+        <section className="min-w-0 flex-1 overflow-auto">
             <div className="mt-3">
                 {activeCategory === "general" ? (
                     <GeneralSettings />

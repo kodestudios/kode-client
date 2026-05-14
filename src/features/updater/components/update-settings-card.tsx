@@ -5,18 +5,16 @@ import {
     DownloadSimpleIcon,
     WarningCircleIcon
 } from "@phosphor-icons/react";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { Button } from "@/components/ui";
+import { SettingsItem } from "@/features/settings/components/settings-item";
 import { cn } from "@/lib/cn";
+import { toast } from "@/lib/toast";
 import { useUpdaterStore, type UpdateStatus } from "../stores";
 import {
     checkForUpdates,
     downloadAndInstallPendingUpdate,
     loadCurrentVersion
 } from "../utils/updater";
-
-dayjs.extend(relativeTime);
 
 const formatBytes = (bytes: number): string => {
     if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
@@ -38,8 +36,7 @@ interface StatusPresentation {
 function getStatusPresentation(
     status: UpdateStatus,
     availableVersion: string | null,
-    error: string | null,
-    lastCheckedAt: number | null
+    error: string | null
 ): StatusPresentation {
     switch (status) {
         case "checking":
@@ -88,15 +85,15 @@ function getStatusPresentation(
             return {
                 icon: <CheckCircleIcon className="size-3.5" weight="fill" />,
                 iconClassName: "text-emerald-400",
-                statusLine: lastCheckedAt
-                    ? `You're up to date · checked ${dayjs(lastCheckedAt).fromNow()}`
-                    : "You're up to date"
+                statusLine: "You're up to date"
             };
         case "error":
             return {
                 icon: <WarningCircleIcon className="size-3.5" weight="fill" />,
                 iconClassName: "text-red-400",
-                statusLine: error ? `Update check failed — ${error}` : "Update check failed"
+                statusLine: error
+                    ? `Update check failed — ${error}`
+                    : "Update check failed"
             };
         case "idle":
         default:
@@ -112,7 +109,6 @@ export function UpdateSettingsCard() {
     const status = useUpdaterStore((s) => s.status);
     const currentVersion = useUpdaterStore((s) => s.currentVersion);
     const availableVersion = useUpdaterStore((s) => s.availableVersion);
-    const lastCheckedAt = useUpdaterStore((s) => s.lastCheckedAt);
     const progress = useUpdaterStore((s) => s.progress);
     const releaseNotes = useUpdaterStore((s) => s.releaseNotes);
     const error = useUpdaterStore((s) => s.error);
@@ -126,10 +122,9 @@ export function UpdateSettingsCard() {
             getStatusPresentation(
                 status,
                 availableVersion,
-                error,
-                lastCheckedAt
+                error
             ),
-        [status, availableVersion, error, lastCheckedAt]
+        [status, availableVersion, error]
     );
 
     const isBusy =
@@ -153,7 +148,16 @@ export function UpdateSettingsCard() {
             });
             return;
         }
-        void checkForUpdates({ silent: true });
+
+        void checkForUpdates({ silent: true }).then((update) => {
+            if (!update && useUpdaterStore.getState().status === "up-to-date") {
+                toast.success({
+                    title: "You're up to date",
+                    id: "updater-manual-check",
+                    duration: 3000
+                });
+            }
+        });
     };
 
     const primaryLabel =
@@ -181,13 +185,11 @@ export function UpdateSettingsCard() {
         );
 
     return (
-        <div className="rounded-sm border border-dark-700 bg-dark-800/40 px-3 py-2.5">
-            <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0 flex-1">
-                    <div className="text-sm font-medium text-dark-50">
-                        Software updates
-                    </div>
-                    <div className="mt-1 text-xs leading-5 text-dark-200">
+        <SettingsItem
+            title="Software updates"
+            description={
+                <>
+                    <div>
                         {currentVersion ? (
                             <>
                                 Kode v{currentVersion}
@@ -206,70 +208,72 @@ export function UpdateSettingsCard() {
                     <div
                         className={cn(
                             "mt-1.5 flex items-center gap-1.5 text-xs leading-5",
-                            presentation.iconClassName ||
-                                "text-dark-200"
+                            presentation.iconClassName || "text-dark-200"
                         )}
                     >
                         {presentation.icon}
-                        <span className="truncate">{presentation.statusLine}</span>
-                    </div>
-                </div>
-                <Button
-                    size="sm"
-                    variant={status === "available" ? "primary" : "secondary"}
-                    onClick={handlePrimary}
-                    disabled={isBusy}
-                    loading={status === "checking"}
-                    leftIcon={status === "checking" ? undefined : primaryIcon}
-                >
-                    {primaryLabel}
-                </Button>
-            </div>
-
-            {(status === "downloading" ||
-                status === "installing" ||
-                status === "ready") && (
-                <div className="mt-2.5">
-                    <div className="h-1 w-full overflow-hidden rounded-full bg-dark-700">
-                        <div
-                            className="h-full bg-primary-100 transition-[width] duration-200 ease-out"
-                            style={{
-                                width:
-                                    progressPercent === null
-                                        ? "100%"
-                                        : `${progressPercent}%`
-                            }}
-                        />
-                    </div>
-                    <div className="mt-1 flex items-center justify-between text-[11px] text-dark-200">
-                        <span>
-                            {progress
-                                ? `${formatBytes(progress.downloaded)}${
-                                      progress.total
-                                          ? ` / ${formatBytes(progress.total)}`
-                                          : ""
-                                  }`
-                                : "Preparing…"}
-                        </span>
-                        <span>
-                            {progressPercent !== null
-                                ? `${progressPercent.toFixed(0)}%`
-                                : ""}
+                        <span className="truncate">
+                            {presentation.statusLine}
                         </span>
                     </div>
-                </div>
-            )}
 
-            {status === "available" && releaseNotes && (
-                <details className="mt-2 text-xs text-dark-100">
-                    <summary className="cursor-pointer select-none text-dark-200 hover:text-dark-50">
-                        Release notes
-                    </summary>
-                    <pre className="mt-1.5 max-h-40 overflow-auto whitespace-pre-wrap rounded-xs bg-dark-900/60 p-2 font-sans text-[11px] leading-5 text-dark-100">
-                        {releaseNotes}
-                    </pre>
-                </details>
-            )}
-        </div>
+                    {(status === "downloading" ||
+                        status === "installing" ||
+                        status === "ready") && (
+                        <div className="mt-2.5">
+                            <div className="h-1 w-full overflow-hidden rounded-full bg-dark-700">
+                                <div
+                                    className="h-full bg-primary-100 transition-[width] duration-200 ease-out"
+                                    style={{
+                                        width:
+                                            progressPercent === null
+                                                ? "100%"
+                                                : `${progressPercent}%`
+                                    }}
+                                />
+                            </div>
+                            <div className="mt-1 flex items-center justify-between text-[11px] text-dark-200">
+                                <span>
+                                    {progress
+                                        ? `${formatBytes(progress.downloaded)}${
+                                              progress.total
+                                                  ? ` / ${formatBytes(progress.total)}`
+                                                  : ""
+                                          }`
+                                        : "Preparing…"}
+                                </span>
+                                <span>
+                                    {progressPercent !== null
+                                        ? `${progressPercent.toFixed(0)}%`
+                                        : ""}
+                                </span>
+                            </div>
+                        </div>
+                    )}
+
+                    {status === "available" && releaseNotes && (
+                        <details className="mt-2 text-xs text-dark-100">
+                            <summary className="cursor-pointer select-none text-dark-200 hover:text-dark-50">
+                                Release notes
+                            </summary>
+                            <pre className="mt-1.5 max-h-40 overflow-auto whitespace-pre-wrap rounded-xs bg-dark-900/60 p-2 font-sans text-[11px] leading-5 text-dark-100">
+                                {releaseNotes}
+                            </pre>
+                        </details>
+                    )}
+                </>
+            }
+        >
+            <Button
+                size="sm"
+                variant={status === "available" ? "primary" : "secondary"}
+                onClick={handlePrimary}
+                disabled={isBusy}
+                loading={status === "checking"}
+                leftIcon={status === "checking" ? undefined : primaryIcon}
+            >
+                {primaryLabel}
+            </Button>
+        </SettingsItem>
     );
 }
