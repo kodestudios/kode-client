@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { FolderOpenIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/Button";
-import { openFolder } from "../api";
 import {
-    useWorkspaceStore,
-    workspaceName
-} from "../stores/workspace-store";
+    formatShortcut,
+    keymapRegistry,
+    useCommandShortcut
+} from "@/features/keymaps";
+import { useWorkspaceStore, workspaceName } from "../stores/workspace-store";
 import { FileTree } from "./file-tree";
 
 export function WorkspacePanel() {
@@ -23,16 +24,13 @@ export function WorkspacePanel() {
 }
 
 function WorkspaceEmptyState() {
-    const setWorkspace = useWorkspaceStore((state) => state.setWorkspace);
     const [isPicking, setIsPicking] = useState(false);
+    const shortcut = useCommandShortcut("workspace.openFolder");
 
     const handleOpen = async () => {
         setIsPicking(true);
         try {
-            const picked = await openFolder();
-            if (picked) {
-                setWorkspace(picked);
-            }
+            await keymapRegistry.executeCommand("workspace.openFolder");
         } finally {
             setIsPicking(false);
         }
@@ -50,7 +48,12 @@ function WorkspaceEmptyState() {
                     void handleOpen();
                 }}
             >
-                Open folder
+                <span>Open folder</span>
+                {shortcut && (
+                    <span className="ml-1 text-dark-300 font-mono text-[10px]">
+                        {formatShortcut(shortcut)}
+                    </span>
+                )}
             </Button>
         </div>
     );
