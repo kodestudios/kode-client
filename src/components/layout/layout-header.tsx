@@ -84,12 +84,12 @@ export default function LayoutHeader() {
             <div className="flex items-center gap-2">
                 <HeaderIconButton
                     onClick={toggleSidebar}
-                    aria-label={
-                        isSidebarOpen ? "Close sidebar" : "Open sidebar"
-                    }
                     aria-pressed={isSidebarOpen}
                 >
-                    <SidebarSimpleIcon className="size-4" weight="bold" />
+                    <SidebarSimpleIcon
+                        className="size-4"
+                        weight={isSidebarOpen ? "bold" : "regular"}
+                    />
                 </HeaderIconButton>
             </div>
             <div className="flex-1" />
@@ -166,8 +166,6 @@ function MacWindowControlButton({
 interface HeaderIconButtonProps {
     children: ReactNode;
     onClick: () => void;
-    "aria-label": string;
-    "aria-pressed"?: boolean;
 }
 
 function HeaderIconButton({
