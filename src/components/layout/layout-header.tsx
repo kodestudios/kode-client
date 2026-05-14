@@ -1,6 +1,13 @@
 import { type ReactNode, useEffect, useState } from "react";
-import { CopyIcon, MinusIcon, SquareIcon, XIcon } from "@phosphor-icons/react";
+import {
+    CopyIcon,
+    MinusIcon,
+    SidebarSimpleIcon,
+    SquareIcon,
+    XIcon
+} from "@phosphor-icons/react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import { useSidebarStore } from "@/features/sidebar";
 import { useOS } from "@/hooks/use-os";
 import { cn } from "@/lib/cn";
 
@@ -9,6 +16,8 @@ export default function LayoutHeader() {
     const [isMaximized, setIsMaximized] = useState(false);
     const appWindow = getCurrentWindow();
     const hasRightWindowControls = os === "windows" || os === "linux";
+    const isSidebarOpen = useSidebarStore((state) => state.isOpen);
+    const toggleSidebar = useSidebarStore((state) => state.toggle);
 
     useEffect(() => {
         const checkMaximized = async () => {
@@ -72,7 +81,17 @@ export default function LayoutHeader() {
                     </div>
                 )}
             </div>
-            <div className="flex items-center gap-2"></div>
+            <div className="flex items-center gap-2">
+                <HeaderIconButton
+                    onClick={toggleSidebar}
+                    aria-label={
+                        isSidebarOpen ? "Close sidebar" : "Open sidebar"
+                    }
+                    aria-pressed={isSidebarOpen}
+                >
+                    <SidebarSimpleIcon className="size-4" weight="bold" />
+                </HeaderIconButton>
+            </div>
             <div className="flex-1" />
             <div className="flex items-center gap-2"></div>
             <div className="flex items-stretch self-stretch">
@@ -141,6 +160,32 @@ function MacWindowControlButton({
             onMouseDown={(event) => event.stopPropagation()}
             onDoubleClick={(event) => event.stopPropagation()}
         />
+    );
+}
+
+interface HeaderIconButtonProps {
+    children: ReactNode;
+    onClick: () => void;
+    "aria-label": string;
+    "aria-pressed"?: boolean;
+}
+
+function HeaderIconButton({
+    children,
+    onClick,
+    ...rest
+}: HeaderIconButtonProps) {
+    return (
+        <button
+            type="button"
+            className="flex size-6 items-center justify-center rounded-xs text-dark-100 transition-colors duration-150 hover:bg-dark-700 hover:text-dark-50 aria-pressed:text-dark-50"
+            onClick={onClick}
+            onMouseDown={(event) => event.stopPropagation()}
+            onDoubleClick={(event) => event.stopPropagation()}
+            {...rest}
+        >
+            {children}
+        </button>
     );
 }
 
