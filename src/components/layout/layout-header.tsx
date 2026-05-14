@@ -8,8 +8,10 @@ import {
     XIcon
 } from "@phosphor-icons/react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import { Tooltip } from "@/components/ui";
 import { useSettingsStore } from "@/features/settings";
 import { useSidebarStore } from "@/features/sidebar";
+import { formatShortcut, useCommandShortcut } from "@/features/keymaps";
 import { useOS } from "@/hooks/use-os";
 import { cn } from "@/lib/cn";
 import { FileMenu } from "./file-menu";
@@ -22,6 +24,7 @@ export default function LayoutHeader() {
     const isSidebarOpen = useSidebarStore((state) => state.isOpen);
     const toggleSidebar = useSidebarStore((state) => state.toggle);
     const toggleSettings = useSettingsStore((state) => state.toggle);
+    const sidebarShortcut = useCommandShortcut("sidebar.toggle");
 
     useEffect(() => {
         const checkMaximized = async () => {
@@ -87,15 +90,25 @@ export default function LayoutHeader() {
                 {os !== "macos" && <FileMenu />}
             </div>
             <div className="flex items-center gap-2">
-                <HeaderIconButton
-                    onClick={toggleSidebar}
-                    aria-pressed={isSidebarOpen}
-                >
-                    <SidebarSimpleIcon
-                        className="size-4"
-                        weight={isSidebarOpen ? "bold" : "regular"}
+                <Tooltip>
+                    <Tooltip.Trigger
+                        render={
+                            <HeaderIconButton
+                                onClick={toggleSidebar}
+                                aria-label="Toggle sidebar"
+                                aria-pressed={isSidebarOpen}
+                            >
+                                <SidebarSimpleIcon
+                                    className="size-4"
+                                    weight={isSidebarOpen ? "bold" : "regular"}
+                                />
+                            </HeaderIconButton>
+                        }
                     />
-                </HeaderIconButton>
+                    <Tooltip.Content keybind={formatShortcut(sidebarShortcut)}>
+                        Toggle sidebar
+                    </Tooltip.Content>
+                </Tooltip>
             </div>
             <div className="flex-1" />
             <div className="flex items-center gap-2 pr-2">

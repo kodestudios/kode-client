@@ -36,10 +36,18 @@ pub fn build_app_menu<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<Menu<R>> 
     let close_folder =
         MenuItemBuilder::with_id("cmd.workspace.closeFolder", "Close Folder").build(app)?;
 
+    let toggle_sidebar = MenuItemBuilder::with_id("cmd.sidebar.toggle", "Toggle Sidebar")
+        .accelerator("CmdOrCtrl+B")
+        .build(app)?;
+
     let file_submenu = SubmenuBuilder::new(app, "File")
         .item(&open_folder)
         .separator()
         .item(&close_folder)
+        .build()?;
+
+    let view_submenu = SubmenuBuilder::new(app, "View")
+        .item(&toggle_sidebar)
         .build()?;
 
     let edit_submenu = SubmenuBuilder::new(app, "Edit")
@@ -62,6 +70,7 @@ pub fn build_app_menu<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<Menu<R>> 
     tauri::menu::MenuBuilder::new(app)
         .item(&app_submenu)
         .item(&file_submenu)
+        .item(&view_submenu)
         .item(&edit_submenu)
         .item(&window_submenu)
         .build()

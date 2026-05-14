@@ -110,6 +110,7 @@ TooltipViewport.displayName = "Tooltip.Viewport";
 export interface TooltipContentProps
     extends Omit<BaseTooltipPopupProps, "className" | "children"> {
     children?: React.ReactNode;
+    keybind?: React.ReactNode;
     side?: BaseTooltipPositionerProps["side"];
     align?: BaseTooltipPositionerProps["align"];
     sideOffset?: BaseTooltipPositionerProps["sideOffset"];
@@ -126,6 +127,7 @@ const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(
     (
         {
             children,
+            keybind,
             side,
             align,
             sideOffset = 6,
@@ -154,7 +156,14 @@ const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(
                     className={cn(popupBaseClassName, className)}
                     {...popupProps}
                 >
-                    {children}
+                    <span className="flex items-center gap-2">
+                        <span>{children}</span>
+                        {keybind && (
+                            <kbd className="font-mono text-[10px] font-medium text-dark-300">
+                                {keybind}
+                            </kbd>
+                        )}
+                    </span>
                 </BaseTooltip.Popup>
             </BaseTooltip.Positioner>
         </BaseTooltip.Portal>

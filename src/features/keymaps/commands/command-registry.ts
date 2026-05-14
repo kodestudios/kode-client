@@ -6,6 +6,7 @@ import {
     closeWorkspaceFolderAction,
     openWorkspaceFolderAction
 } from "./workspace-command-actions";
+import { toggleSidebarAction } from "./sidebar-command-actions";
 
 const workspaceCommands: Command[] = [
     {
@@ -34,6 +35,16 @@ const settingsCommands: Command[] = [
     }
 ];
 
+const viewCommands: Command[] = [
+    {
+        id: "sidebar.toggle",
+        title: "Toggle Sidebar",
+        category: "View",
+        keybinding: "cmd+b",
+        execute: toggleSidebarAction
+    }
+];
+
 const updaterCommands: Command[] = [
     {
         id: "app.checkForUpdates",
@@ -48,6 +59,7 @@ const updaterCommands: Command[] = [
 const allCommands: Command[] = [
     ...workspaceCommands,
     ...settingsCommands,
+    ...viewCommands,
     ...updaterCommands
 ];
 

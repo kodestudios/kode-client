@@ -20,5 +20,10 @@ export const defaultKeymaps: Keybinding[] = [
         key: "cmd+,",
         command: "settings.open",
         source: "default"
+    },
+    {
+        key: "cmd+b",
+        command: "sidebar.toggle",
+        source: "default"
     }
 ];
