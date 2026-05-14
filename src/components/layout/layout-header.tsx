@@ -10,6 +10,7 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { useSidebarStore } from "@/features/sidebar";
 import { useOS } from "@/hooks/use-os";
 import { cn } from "@/lib/cn";
+import { FileMenu } from "./file-menu";
 
 export default function LayoutHeader() {
     const os = useOS();
@@ -80,6 +81,7 @@ export default function LayoutHeader() {
                         />
                     </div>
                 )}
+                {os !== "macos" && <FileMenu />}
             </div>
             <div className="flex items-center gap-2">
                 <HeaderIconButton

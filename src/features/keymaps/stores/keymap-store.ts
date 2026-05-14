@@ -27,7 +27,8 @@ const initialContexts: Partial<KeymapContext> = {
     terminalFocus: false,
     sidebarFocus: false,
     hasSelection: false,
-    isRecordingKeybinding: false
+    isRecordingKeybinding: false,
+    workspaceHasFolder: false
 };
 
 export const useKeymapStore = create<KeymapState>()(

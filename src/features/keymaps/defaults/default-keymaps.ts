@@ -9,5 +9,11 @@ export const defaultKeymaps: Keybinding[] = [
         key: "cmd+o",
         command: "workspace.openFolder",
         source: "default"
+    },
+    {
+        key: "cmd+k f",
+        command: "workspace.closeFolder",
+        when: "workspaceHasFolder",
+        source: "default"
     }
 ];

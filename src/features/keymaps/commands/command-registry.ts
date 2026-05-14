@@ -1,6 +1,9 @@
 import type { Command } from "../types";
 import { keymapRegistry } from "../utils/registry";
-import { openWorkspaceFolderAction } from "./workspace-command-actions";
+import {
+    closeWorkspaceFolderAction,
+    openWorkspaceFolderAction
+} from "./workspace-command-actions";
 
 const workspaceCommands: Command[] = [
     {
@@ -9,6 +12,13 @@ const workspaceCommands: Command[] = [
         category: "Workspace",
         keybinding: "cmd+o",
         execute: openWorkspaceFolderAction
+    },
+    {
+        id: "workspace.closeFolder",
+        title: "Close Folder",
+        category: "Workspace",
+        keybinding: "cmd+k f",
+        execute: closeWorkspaceFolderAction
     }
 ];
 

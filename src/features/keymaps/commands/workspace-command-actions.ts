@@ -7,3 +7,7 @@ export async function openWorkspaceFolderAction(): Promise<void> {
         useWorkspaceStore.getState().setWorkspace(picked);
     }
 }
+
+export function closeWorkspaceFolderAction(): void {
+    useWorkspaceStore.getState().closeWorkspace();
+}

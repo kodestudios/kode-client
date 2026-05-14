@@ -27,6 +27,7 @@ export interface KeymapContext {
     sidebarFocus: boolean;
     hasSelection: boolean;
     isRecordingKeybinding: boolean;
+    workspaceHasFolder: boolean;
     [key: string]: boolean;
 }
 
