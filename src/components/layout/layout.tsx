@@ -1,5 +1,6 @@
 import LayoutHeader from "./layout-header";
 import LayoutFooter from "./layout-footer";
+import { SettingsModal } from "@/features/settings";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -9,6 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {children}
             </main>
             <LayoutFooter />
+            <SettingsModal />
         </div>
     );
 }

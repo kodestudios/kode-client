@@ -15,5 +15,10 @@ export const defaultKeymaps: Keybinding[] = [
         command: "workspace.closeFolder",
         when: "workspaceHasFolder",
         source: "default"
+    },
+    {
+        key: "cmd+,",
+        command: "settings.open",
+        source: "default"
     }
 ];

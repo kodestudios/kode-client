@@ -1,5 +1,6 @@
 import type { Command } from "../types";
 import { keymapRegistry } from "../utils/registry";
+import { openSettingsAction } from "@/features/settings";
 import {
     closeWorkspaceFolderAction,
     openWorkspaceFolderAction
@@ -22,7 +23,17 @@ const workspaceCommands: Command[] = [
     }
 ];
 
-const allCommands: Command[] = [...workspaceCommands];
+const settingsCommands: Command[] = [
+    {
+        id: "settings.open",
+        title: "Open Settings",
+        category: "Settings",
+        keybinding: "cmd+,",
+        execute: openSettingsAction
+    }
+];
+
+const allCommands: Command[] = [...workspaceCommands, ...settingsCommands];
 
 export function registerCommands(): void {
     for (const command of allCommands) {

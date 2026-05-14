@@ -1,12 +1,14 @@
-import { type ReactNode, useEffect, useState } from "react";
+import { type ButtonHTMLAttributes, type ReactNode, useEffect, useState } from "react";
 import {
     CopyIcon,
+    GearIcon,
     MinusIcon,
     SidebarSimpleIcon,
     SquareIcon,
     XIcon
 } from "@phosphor-icons/react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import { useSettingsStore } from "@/features/settings";
 import { useSidebarStore } from "@/features/sidebar";
 import { useOS } from "@/hooks/use-os";
 import { cn } from "@/lib/cn";
@@ -19,6 +21,7 @@ export default function LayoutHeader() {
     const hasRightWindowControls = os === "windows" || os === "linux";
     const isSidebarOpen = useSidebarStore((state) => state.isOpen);
     const toggleSidebar = useSidebarStore((state) => state.toggle);
+    const toggleSettings = useSettingsStore((state) => state.toggle);
 
     useEffect(() => {
         const checkMaximized = async () => {
@@ -95,7 +98,11 @@ export default function LayoutHeader() {
                 </HeaderIconButton>
             </div>
             <div className="flex-1" />
-            <div className="flex items-center gap-2"></div>
+            <div className="flex items-center gap-2 pr-2">
+                <HeaderIconButton onClick={toggleSettings} aria-label="Open settings">
+                    <GearIcon className="size-4" />
+                </HeaderIconButton>
+            </div>
             <div className="flex items-stretch self-stretch">
                 {hasRightWindowControls && (
                     <div className="flex items-stretch self-stretch pl-2">
@@ -165,7 +172,8 @@ function MacWindowControlButton({
     );
 }
 
-interface HeaderIconButtonProps {
+interface HeaderIconButtonProps
+    extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
     children: ReactNode;
     onClick: () => void;
 }
