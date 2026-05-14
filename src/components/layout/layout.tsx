@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <div className="flex flex-col h-screen overflow-hidden overscroll-none">
             <LayoutHeader />
-            <main className="flex w-full h-full items-center gap-4 flex-1 px-4">
+            <main className="flex w-full h-full items-center gap-4 flex-1 px-2">
                 {children}
             </main>
             <LayoutFooter />
