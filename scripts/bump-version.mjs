@@ -6,10 +6,14 @@
  *   - src-tauri/tauri.conf.json
  *
  * Usage:
- *   bun run version patch        # 0.1.0 -> 0.1.1
- *   bun run version minor        # 0.1.0 -> 0.2.0
- *   bun run version major        # 0.1.0 -> 1.0.0
- *   bun run version 1.2.3        # explicit
+ *   bun run version patch         # 0.1.0 -> 0.1.1
+ *   bun run version minor         # 0.1.0 -> 0.2.0
+ *   bun run version major         # 0.1.0 -> 1.0.0
+ *   bun run version 1.2.3         # explicit
+ *   bun run version set 1.2.3     # explicit with a command
+ *   bun run version --version 1.2.3
+ *   bun run version:set 1.2.3     # explicit via package script alias
+ *   bun run version:patch         # shortcut aliases also exist for minor/major
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -24,9 +28,9 @@ const tauriConfPath = resolve(root, "src-tauri/tauri.conf.json");
 const pkg = JSON.parse(readFileSync(pkgPath, "utf8"));
 const current = pkg.version;
 
-const arg = process.argv[2];
-if (!arg) {
-    console.error("usage: bump-version <patch|minor|major|x.y.z>");
+const args = process.argv.slice(2);
+if (args.length === 0) {
+    console.error("usage: bump-version <patch|minor|major|x.y.z|set x.y.z|--version x.y.z>");
     process.exit(1);
 }
 
@@ -41,6 +45,18 @@ function bump(version, kind) {
     throw new Error(`unknown bump: ${kind}`);
 }
 
+function explicitVersionFromArgs(args) {
+    const [command, version] = args;
+    if (command === "set" || command === "--version" || command === "-v") {
+        if (!version) throw new Error(`${command} requires a version`);
+        if (args.length > 2) throw new Error(`too many arguments: ${args.slice(2).join(" ")}`);
+        return version;
+    }
+    if (args.length > 1) throw new Error(`too many arguments: ${args.slice(1).join(" ")}`);
+    return command;
+}
+
+const arg = explicitVersionFromArgs(args);
 const next = /^\d+\.\d+\.\d+$/.test(arg) ? arg : bump(current, arg);
 
 // package.json
