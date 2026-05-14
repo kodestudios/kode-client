@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useSidebarStore } from "@/features/sidebar";
+import { WorkspacePanel } from "@/features/workspace";
 
 export default function Sidebar() {
     const isOpen = useSidebarStore((state) => state.isOpen);
@@ -40,6 +41,9 @@ export default function Sidebar() {
             style={{ width }}
             className="relative flex shrink-0 overflow-hidden rounded-sm bg-dark-950 h-full"
         >
+            <div className="flex h-full min-w-0 flex-1 flex-col p-1">
+                <WorkspacePanel />
+            </div>
             <div
                 role="separator"
                 aria-orientation="vertical"
