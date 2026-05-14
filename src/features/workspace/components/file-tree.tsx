@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-    CaretDownIcon,
-    CaretRightIcon,
-    FileIcon,
-    FolderIcon,
-    FolderOpenIcon
-} from "@phosphor-icons/react";
+import { CaretDownIcon, CaretRightIcon } from "@phosphor-icons/react";
+import { FileTypeIcon } from "@/components/ui/FileTypeIcon";
 import { readDirectory, type FileTreeEntry } from "../api";
 import { cn } from "@/lib/cn";
 
@@ -111,7 +106,6 @@ function FileTreeNode({
 
     if (entry.isDirectory) {
         const Caret = isOpen ? CaretDownIcon : CaretRightIcon;
-        const FolderGlyph = isOpen ? FolderOpenIcon : FolderIcon;
 
         return (
             <>
@@ -120,9 +114,11 @@ function FileTreeNode({
                         className="size-3 shrink-0 text-dark-300"
                         weight="bold"
                     />
-                    <FolderGlyph
-                        className="size-4 shrink-0 text-dark-100"
-                        weight="fill"
+                    <FileTypeIcon
+                        name={entry.name}
+                        isDirectory
+                        isOpen={isOpen}
+                        className="size-4 shrink-0"
                     />
                     <span className="truncate">{entry.name}</span>
                 </Row>
@@ -136,10 +132,7 @@ function FileTreeNode({
     return (
         <Row depth={depth} onClick={() => {}}>
             <span className="size-3 shrink-0" aria-hidden />
-            <FileIcon
-                className="size-4 shrink-0 text-dark-300"
-                weight="regular"
-            />
+            <FileTypeIcon name={entry.name} className="size-4 shrink-0" />
             <span className="truncate">{entry.name}</span>
         </Row>
     );

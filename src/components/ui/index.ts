@@ -3,6 +3,7 @@ export * from "./Checkbox";
 export * from "./Avatar";
 export * from "./ContextMenu";
 export * from "./DatePicker";
+export * from "./FileTypeIcon";
 export * from "./Modal";
 export * from "./Input";
 export * from "./Menu";
