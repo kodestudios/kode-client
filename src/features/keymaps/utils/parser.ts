@@ -12,6 +12,18 @@ export interface ParsedKeybinding {
 
 const MODIFIER_KEYS = ["ctrl", "cmd", "alt", "shift", "meta"];
 
+/**
+ * Canonical modifier names. `eventToKey` always emits `cmd` for
+ * `event.metaKey`, so a user-written `meta+*` binding would otherwise
+ * never match the runtime event.
+ */
+const MODIFIER_ALIASES: Record<string, string> = {
+    meta: "cmd",
+    option: "alt",
+    control: "ctrl",
+    command: "cmd"
+};
+
 const SPECIAL_KEYS: Record<string, string> = {
     enter: "Enter",
     return: "Enter",
@@ -45,9 +57,10 @@ export function parseKeyCombination(combo: string): ParsedKey {
     let key = "";
 
     for (const part of parts) {
-        if (MODIFIER_KEYS.includes(part)) {
-            if (!modifiers.includes(part)) {
-                modifiers.push(part);
+        const canonical = MODIFIER_ALIASES[part] ?? part;
+        if (MODIFIER_KEYS.includes(canonical)) {
+            if (!modifiers.includes(canonical)) {
+                modifiers.push(canonical);
             }
         } else {
             key = part;

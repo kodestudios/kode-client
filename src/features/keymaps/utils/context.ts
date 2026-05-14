@@ -107,6 +107,11 @@ function tokenize(expr: string): Token[] {
 interface EvalResult {
     value: boolean;
     consumed: number;
+    /**
+     * Raw underlying value, kept so equality compares booleans to booleans
+     * and strings to strings rather than coercing one side to boolean first.
+     */
+    raw: string | boolean;
 }
 
 function evaluateTokens(
@@ -123,55 +128,88 @@ function evaluateOr(
 ): EvalResult {
     const result = evaluateAnd(tokens, context);
     let consumed = result.consumed;
+    let value = result.value;
 
     while (consumed < tokens.length) {
         const token = tokens[consumed];
         if (token.type === "operator" && token.value === "||") {
             consumed++;
             const right = evaluateAnd(tokens.slice(consumed), context);
-            result.value = result.value || right.value;
+            value = value || right.value;
             consumed += right.consumed;
         } else {
             break;
         }
     }
 
-    return { value: result.value, consumed };
+    return { value, consumed, raw: value };
 }
 
 function evaluateAnd(
     tokens: Token[],
     context: Partial<KeymapContext>
 ): EvalResult {
-    const result = evaluateUnary(tokens, context);
+    const result = evaluateEquality(tokens, context);
     let consumed = result.consumed;
+    let value = result.value;
 
     while (consumed < tokens.length) {
         const token = tokens[consumed];
         if (token.type === "operator" && token.value === "&&") {
             consumed++;
-            const right = evaluateUnary(tokens.slice(consumed), context);
-            result.value = result.value && right.value;
+            const right = evaluateEquality(tokens.slice(consumed), context);
+            value = value && right.value;
             consumed += right.consumed;
         } else {
             break;
         }
     }
 
-    return { value: result.value, consumed };
+    return { value, consumed, raw: value };
+}
+
+function evaluateEquality(
+    tokens: Token[],
+    context: Partial<KeymapContext>
+): EvalResult {
+    const result = evaluateUnary(tokens, context);
+    let consumed = result.consumed;
+    let raw: string | boolean = result.raw;
+    let value = result.value;
+
+    while (consumed < tokens.length) {
+        const token = tokens[consumed];
+        if (
+            token.type === "operator" &&
+            (token.value === "==" || token.value === "!=")
+        ) {
+            const op = token.value;
+            consumed++;
+            const right = evaluateUnary(tokens.slice(consumed), context);
+            const equal = raw === right.raw;
+            value = op === "==" ? equal : !equal;
+            raw = value;
+            consumed += right.consumed;
+        } else {
+            break;
+        }
+    }
+
+    return { value, consumed, raw };
 }
 
 function evaluateUnary(
     tokens: Token[],
     context: Partial<KeymapContext>
 ): EvalResult {
-    if (tokens.length === 0) return { value: true, consumed: 0 };
+    if (tokens.length === 0) return { value: true, consumed: 0, raw: true };
 
     const token = tokens[0];
 
     if (token.type === "operator" && token.value === "!") {
         const result = evaluateUnary(tokens.slice(1), context);
-        return { value: !result.value, consumed: result.consumed + 1 };
+        const value = !result.value;
+        return { value, consumed: result.consumed + 1, raw: value };
     }
 
     return evaluatePrimary(tokens, context);
@@ -181,28 +219,40 @@ function evaluatePrimary(
     tokens: Token[],
     context: Partial<KeymapContext>
 ): EvalResult {
-    if (tokens.length === 0) return { value: true, consumed: 0 };
+    if (tokens.length === 0) return { value: true, consumed: 0, raw: true };
 
     const token = tokens[0];
 
     if (token.type === "paren" && token.value === "(") {
-        const result = evaluateOr(tokens.slice(1), context);
-        const closeParen = tokens[result.consumed + 1];
+        const inner = evaluateOr(tokens.slice(1), context);
+        const closeParen = tokens[inner.consumed + 1];
         if (closeParen?.type === "paren" && closeParen.value === ")") {
-            return { value: result.value, consumed: result.consumed + 2 };
+            return {
+                value: inner.value,
+                consumed: inner.consumed + 2,
+                raw: inner.raw
+            };
         }
-        return result;
+        return inner;
     }
 
     if (token.type === "literal") {
-        return { value: Boolean(token.value), consumed: 1 };
+        return {
+            value: Boolean(token.value),
+            consumed: 1,
+            raw: token.value
+        };
     }
 
     if (token.type === "identifier") {
-        const value =
-            context[token.value as keyof KeymapContext] ?? false;
-        return { value, consumed: 1 };
+        const raw = context[token.value as keyof KeymapContext];
+        const resolved = raw ?? false;
+        return {
+            value: Boolean(resolved),
+            consumed: 1,
+            raw: resolved
+        };
     }
 
-    return { value: true, consumed: 1 };
+    return { value: true, consumed: 1, raw: true };
 }

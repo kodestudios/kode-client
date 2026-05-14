@@ -10,16 +10,53 @@ const CHORD_TIMEOUT_MS = 1000;
 /**
  * Mount once at the app root. Installs a single capture-phase `keydown`
  * listener that dispatches matched bindings through `keymapRegistry`.
+ *
+ * The listener is intentionally installed only on mount and read fresh
+ * state through refs. If we re-bound it whenever `contexts`,
+ * `userKeybindings`, or `chordState` changed, the effect cleanup would
+ * wipe the pending chord-reset timeout before it ever fires, so chord
+ * buffers would never auto-clear after `CHORD_TIMEOUT_MS`.
  */
 export function useKeymaps() {
     const contexts = useKeymapStore((state) => state.contexts);
     const userKeybindings = useKeymapStore((state) => state.keybindings);
     const [chordState, setChordState] = useState<ParsedKey[]>([]);
+
+    const contextsRef = useRef(contexts);
+    const userKeybindingsRef = useRef(userKeybindings);
+    const chordStateRef = useRef<ParsedKey[]>(chordState);
     const chordTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+    contextsRef.current = contexts;
+    userKeybindingsRef.current = userKeybindings;
+    chordStateRef.current = chordState;
+
     useEffect(() => {
+        const updateChordState = (next: ParsedKey[]) => {
+            chordStateRef.current = next;
+            setChordState(next);
+        };
+
+        const clearChordTimeout = () => {
+            if (chordTimeoutRef.current) {
+                clearTimeout(chordTimeoutRef.current);
+                chordTimeoutRef.current = null;
+            }
+        };
+
+        const resetChord = () => {
+            clearChordTimeout();
+            if (chordStateRef.current.length > 0) {
+                updateChordState([]);
+            }
+        };
+
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (contexts.isRecordingKeybinding) {
+            const currentContexts = contextsRef.current;
+            const currentUserKeybindings = userKeybindingsRef.current;
+            const currentChordState = chordStateRef.current;
+
+            if (currentContexts.isRecordingKeybinding) {
                 return;
             }
 
@@ -41,14 +78,14 @@ export function useKeymaps() {
 
             const registryKeybindings = keymapRegistry.getAllKeybindings();
             const userOverrides = new Map(
-                userKeybindings.map((kb) => [kb.command, kb])
+                currentUserKeybindings.map((kb) => [kb.command, kb])
             );
 
             const effective = registryKeybindings.map(
                 (kb) => userOverrides.get(kb.command) ?? kb
             );
 
-            for (const userKb of userKeybindings) {
+            for (const userKb of currentUserKeybindings) {
                 if (!effective.some((kb) => kb.command === userKb.command)) {
                     effective.push(userKb);
                 }
@@ -63,7 +100,7 @@ export function useKeymaps() {
 
                 if (
                     keybinding.when &&
-                    !evaluateWhenClause(keybinding.when, contexts)
+                    !evaluateWhenClause(keybinding.when, currentContexts)
                 ) {
                     continue;
                 }
@@ -71,18 +108,15 @@ export function useKeymaps() {
                 const result = matchKeybinding(
                     event,
                     keybinding.key,
-                    chordState
+                    currentChordState
                 );
 
                 if (result.matched) {
                     event.preventDefault();
                     event.stopPropagation();
 
-                    setChordState([]);
-                    if (chordTimeoutRef.current) {
-                        clearTimeout(chordTimeoutRef.current);
-                        chordTimeoutRef.current = null;
-                    }
+                    clearChordTimeout();
+                    updateChordState([]);
 
                     void keymapRegistry.executeCommand(
                         keybinding.command,
@@ -95,28 +129,22 @@ export function useKeymaps() {
                     event.preventDefault();
                     event.stopPropagation();
 
-                    const nextChord = [...chordState, eventKey];
-                    setChordState(nextChord);
+                    const nextChord = [...currentChordState, eventKey];
+                    updateChordState(nextChord);
 
-                    if (chordTimeoutRef.current) {
-                        clearTimeout(chordTimeoutRef.current);
-                    }
-
+                    clearChordTimeout();
                     chordTimeoutRef.current = setTimeout(() => {
-                        setChordState([]);
                         chordTimeoutRef.current = null;
+                        chordStateRef.current = [];
+                        setChordState([]);
                     }, CHORD_TIMEOUT_MS);
 
                     return;
                 }
             }
 
-            if (chordState.length > 0) {
-                setChordState([]);
-                if (chordTimeoutRef.current) {
-                    clearTimeout(chordTimeoutRef.current);
-                    chordTimeoutRef.current = null;
-                }
+            if (currentChordState.length > 0) {
+                resetChord();
             }
         };
 
@@ -129,7 +157,7 @@ export function useKeymaps() {
                 chordTimeoutRef.current = null;
             }
         };
-    }, [contexts, userKeybindings, chordState]);
+    }, []);
 
     return {
         chordState,
