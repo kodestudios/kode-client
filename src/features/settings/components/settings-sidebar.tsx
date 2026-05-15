@@ -35,10 +35,10 @@ export function SettingsSidebar({
                             className={cn(
                                 "flex w-full items-center gap-2 rounded-xs px-2 py-1.5 text-left text-xs outline-none",
                                 "transition-colors duration-100 ease-out",
-                                "hover:bg-dark-700 hover:text-dark-50 focus-visible:bg-dark-700",
+                                "hover:bg-panel hover:text-fg focus-visible:bg-panel",
                                 activeCategory === category.id
-                                    ? "bg-dark-700 text-dark-50"
-                                    : "text-dark-100"
+                                    ? "bg-panel text-fg"
+                                    : "text-fg-muted"
                             )}
                         >
                             <Icon

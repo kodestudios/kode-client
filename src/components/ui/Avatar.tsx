@@ -34,7 +34,7 @@ const AvatarRoot = React.forwardRef<HTMLSpanElement, AvatarRootProps>(
                 ref={ref}
                 className={cn(
                     "inline-flex shrink-0 select-none items-center justify-center overflow-hidden align-middle",
-                    "bg-dark-700 text-dark-50 border border-dark-600",
+                    "bg-panel text-fg border border-line",
                     "font-medium",
                     sizeStyles[size],
                     shapeStyles[shape],

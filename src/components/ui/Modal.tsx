@@ -55,7 +55,7 @@ const ModalRoot = ({
                 <BaseDialog.Popup
                     className={cn(
                         "fixed top-1/2 left-1/2 z-50 w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2",
-                        "bg-dark-850 text-dark-50 border border-dark-600",
+                        "bg-elevated text-fg border border-line",
                         "rounded-xs shadow-lg shadow-black/40",
                         "p-4 outline-none",
                         "transition-[opacity,transform,scale] duration-200 ease-out",
@@ -70,7 +70,7 @@ const ModalRoot = ({
                             {title ? (
                                 <BaseDialog.Title
                                     className={cn(
-                                        "text-base leading-tight font-semibold text-dark-50",
+                                        "text-base leading-tight font-semibold text-fg",
                                         titleClassName
                                     )}
                                 >
@@ -84,10 +84,10 @@ const ModalRoot = ({
                                     aria-label="Close"
                                     className={cn(
                                         "-m-1 inline-flex size-7 shrink-0 items-center justify-center rounded-xs",
-                                        "text-dark-50",
+                                        "text-fg",
                                         "transition-[background-color,color,transform] duration-150 ease-out",
-                                        "hover:bg-dark-600",
-                                        "active:bg-dark-500 active:scale-[0.98]"
+                                        "hover:bg-muted",
+                                        "active:bg-strong active:scale-[0.98]"
                                     )}
                                 >
                                     <XIcon
@@ -99,7 +99,7 @@ const ModalRoot = ({
                             )}
                         </div>
                     )}
-                    <div className={cn("text-sm text-dark-100", bodyClassName)}>
+                    <div className={cn("text-sm text-fg-muted", bodyClassName)}>
                         {children}
                     </div>
                 </BaseDialog.Popup>

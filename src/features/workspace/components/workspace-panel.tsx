@@ -38,7 +38,7 @@ function WorkspaceEmptyState() {
 
     return (
         <div className="flex h-full flex-col items-center justify-center gap-3 px-6 text-center">
-            <p className="text-xs text-dark-200">No folder is open.</p>
+            <p className="text-xs text-fg-subtle">No folder is open.</p>
             <Button
                 variant="secondary"
                 size="sm"
@@ -50,7 +50,7 @@ function WorkspaceEmptyState() {
             >
                 <span>Open folder</span>
                 {shortcut && (
-                    <span className="ml-1 text-dark-300 font-mono text-[10px]">
+                    <span className="ml-1 text-fg-faint font-mono text-[10px]">
                         {formatShortcut(shortcut)}
                     </span>
                 )}

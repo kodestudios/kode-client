@@ -1,10 +1,15 @@
 import { Toaster as SonnerToaster } from "sonner";
+import { useThemeStore } from "@/features/themes";
+import { getTheme } from "@/features/themes";
 
 export function Toaster() {
+    const themeId = useThemeStore((state) => state.themeId);
+    const appearance = getTheme(themeId)?.appearance ?? "dark";
+
     return (
         <SonnerToaster
             position="bottom-right"
-            theme="dark"
+            theme={appearance}
             expand
             gap={8}
             offset={16}
@@ -12,11 +17,11 @@ export function Toaster() {
             toastOptions={{
                 duration: 4500,
                 classNames: {
-                    toast: "bg-dark-850 border-dark-600 text-dark-50",
-                    title: "text-primary-100",
-                    description: "text-dark-100",
-                    actionButton: "bg-primary-100 text-dark-950",
-                    cancelButton: "bg-dark-600 text-dark-50"
+                    toast: "bg-elevated border-line text-fg",
+                    title: "text-fg",
+                    description: "text-fg-muted",
+                    actionButton: "bg-accent text-on-accent",
+                    cancelButton: "bg-muted text-fg"
                 }
             }}
         />

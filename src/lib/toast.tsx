@@ -25,18 +25,18 @@ export type ToastData = {
 };
 
 const toneStyles: Record<ToastKind, string> = {
-    default: "bg-dark-200",
+    default: "bg-fg-subtle",
     success: "bg-emerald-400",
     info: "bg-sky-400",
     warning: "bg-amber-400",
     error: "bg-red-400",
-    loading: "bg-primary-100"
+    loading: "bg-accent"
 };
 
 const actionStyles: Record<NonNullable<ToastAction["variant"]>, string> = {
-    primary: "bg-primary-100 text-dark-950 hover:bg-primary-300",
-    secondary: "bg-dark-600 text-dark-50 hover:bg-dark-500",
-    destructive: "bg-red-500 text-dark-50 hover:bg-red-600"
+    primary: "bg-accent text-on-accent hover:bg-accent-hover",
+    secondary: "bg-muted text-fg hover:bg-strong",
+    destructive: "bg-red-500 text-fg hover:bg-red-600"
 };
 
 let toastSequence = 0;
@@ -54,15 +54,15 @@ function ToastContent({ data, id, kind }: { data: ToastData; id: string; kind: T
     }, [id]);
 
     return (
-        <div className="w-80 rounded-sm border border-dark-600 bg-dark-850 p-3 text-dark-50 shadow-2xl shadow-dark-950/50">
+        <div className="w-80 rounded-sm border border-line bg-elevated p-3 text-fg shadow-2xl shadow-sunken/50">
             <div className="flex gap-3">
                 <span className={`mt-1 size-2 shrink-0 rounded-full ${toneStyles[kind]}`} />
                 <div className="min-w-0 flex-1">
-                    <div className="text-sm font-semibold leading-5 text-primary-100">
+                    <div className="text-sm font-semibold leading-5 text-fg">
                         {data.title}
                     </div>
                     {data.description && (
-                        <div className="mt-1 text-sm leading-5 text-dark-100">
+                        <div className="mt-1 text-sm leading-5 text-fg-muted">
                             {data.description}
                         </div>
                     )}

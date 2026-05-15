@@ -49,17 +49,17 @@ type BaseSelectSeparatorProps = React.ComponentProps<
 
 const triggerBaseClassName = cn(
     "inline-flex w-full select-none items-center justify-between rounded-xs",
-    "bg-dark-700 text-dark-50 border border-dark-600",
+    "bg-panel text-fg border border-line",
     "transition-[background-color,border-color,color] duration-150 ease-out",
-    "hover:border-dark-500",
-    "data-[popup-open]:border-dark-400 data-[focused]:border-dark-400",
+    "hover:border-line-strong",
+    "data-[popup-open]:border-line-focus data-[focused]:border-line-focus",
     "data-[invalid]:border-red-500",
     "data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 );
 
 const popupBaseClassName = cn(
     "min-w-[var(--anchor-width)] max-h-[var(--available-height)] overflow-y-auto outline-none",
-    "bg-dark-850 text-dark-50 border border-dark-600",
+    "bg-elevated text-fg border border-line",
     "rounded-xs shadow-lg shadow-black/40",
     "p-1",
     "[transform-origin:var(--transform-origin)]",
@@ -70,21 +70,21 @@ const popupBaseClassName = cn(
 
 const itemBaseClassName = cn(
     "relative flex w-full cursor-pointer select-none items-center gap-2",
-    "rounded-xs py-1.5 pr-2.5 pl-7 text-xs text-dark-50 outline-none",
+    "rounded-xs py-1.5 pr-2.5 pl-7 text-xs text-fg outline-none",
     "transition-colors duration-100 ease-out",
-    "data-[highlighted]:bg-dark-700",
+    "data-[highlighted]:bg-panel",
     "data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 );
 
 const indicatorWrapperClassName = cn(
-    "absolute left-1.5 inline-flex size-4 shrink-0 items-center justify-center text-dark-50",
+    "absolute left-1.5 inline-flex size-4 shrink-0 items-center justify-center text-fg",
     "transition-opacity duration-100 ease-out",
     "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0"
 );
 
 const scrollArrowClassName = cn(
     "sticky z-10 flex h-6 cursor-default items-center justify-center",
-    "bg-dark-850 text-dark-200",
+    "bg-elevated text-fg-subtle",
     "transition-opacity duration-100 ease-out",
     "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0"
 );
@@ -102,7 +102,7 @@ const SelectLabel = React.forwardRef<HTMLDivElement, SelectLabelProps>(
         <BaseSelect.Label
             ref={ref}
             className={cn(
-                "mb-1.5 block text-xs font-medium text-dark-100",
+                "mb-1.5 block text-xs font-medium text-fg-muted",
                 className
             )}
             {...props}
@@ -145,7 +145,7 @@ const SelectValue = React.forwardRef<HTMLSpanElement, SelectValueProps>(
             ref={ref}
             className={cn(
                 "min-w-0 flex-1 truncate text-left",
-                "data-[placeholder]:text-dark-200",
+                "data-[placeholder]:text-fg-subtle",
                 className
             )}
             {...props}
@@ -164,7 +164,7 @@ const SelectIcon = React.forwardRef<HTMLSpanElement, SelectIconProps>(
         <BaseSelect.Icon
             ref={ref}
             className={cn(
-                "ml-1 inline-flex shrink-0 items-center justify-center text-dark-200",
+                "ml-1 inline-flex shrink-0 items-center justify-center text-fg-subtle",
                 className
             )}
             {...props}
@@ -278,7 +278,7 @@ const SelectArrow = React.forwardRef<HTMLDivElement, SelectArrowProps>(
         <BaseSelect.Arrow
             ref={ref}
             className={cn(
-                "size-2 rotate-45 bg-dark-850 border border-dark-600",
+                "size-2 rotate-45 bg-elevated border border-line",
                 className
             )}
             {...props}
@@ -355,7 +355,7 @@ const SelectGroupLabel = React.forwardRef<HTMLDivElement, SelectGroupLabelProps>
         <BaseSelect.GroupLabel
             ref={ref}
             className={cn(
-                "px-2 py-1 text-[11px] font-medium text-dark-200",
+                "px-2 py-1 text-[11px] font-medium text-fg-subtle",
                 className
             )}
             {...props}
@@ -415,7 +415,7 @@ const SelectSeparator = React.forwardRef<HTMLDivElement, SelectSeparatorProps>(
     ({ className, ...props }, ref) => (
         <BaseSelect.Separator
             ref={ref}
-            className={cn("-mx-1 my-1 h-px bg-dark-600", className)}
+            className={cn("-mx-1 my-1 h-px bg-line", className)}
             {...props}
         />
     )

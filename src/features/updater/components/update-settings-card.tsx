@@ -47,13 +47,13 @@ function getStatusPresentation(
                         weight="bold"
                     />
                 ),
-                iconClassName: "text-dark-200",
+                iconClassName: "text-fg-subtle",
                 statusLine: "Checking for updates…"
             };
         case "available":
             return {
                 icon: <DownloadSimpleIcon className="size-3.5" weight="bold" />,
-                iconClassName: "text-primary-100",
+                iconClassName: "text-accent",
                 statusLine: availableVersion
                     ? `Update available — v${availableVersion}`
                     : "Update available"
@@ -66,7 +66,7 @@ function getStatusPresentation(
                         weight="bold"
                     />
                 ),
-                iconClassName: "text-primary-100",
+                iconClassName: "text-accent",
                 statusLine: "Downloading update…"
             };
         case "installing":
@@ -78,7 +78,7 @@ function getStatusPresentation(
                         weight="bold"
                     />
                 ),
-                iconClassName: "text-primary-100",
+                iconClassName: "text-accent",
                 statusLine: "Installing — Kode will restart shortly."
             };
         case "up-to-date":
@@ -195,7 +195,7 @@ export function UpdateSettingsCard() {
                                 Kode v{currentVersion}
                                 {availableVersion &&
                                     availableVersion !== currentVersion && (
-                                        <span className="text-dark-100">
+                                        <span className="text-fg-muted">
                                             {" "}
                                             → v{availableVersion}
                                         </span>
@@ -208,7 +208,7 @@ export function UpdateSettingsCard() {
                     <div
                         className={cn(
                             "mt-1.5 flex items-center gap-1.5 text-xs leading-5",
-                            presentation.iconClassName || "text-dark-200"
+                            presentation.iconClassName || "text-fg-subtle"
                         )}
                     >
                         {presentation.icon}
@@ -221,9 +221,9 @@ export function UpdateSettingsCard() {
                         status === "installing" ||
                         status === "ready") && (
                         <div className="mt-2.5">
-                            <div className="h-1 w-full overflow-hidden rounded-full bg-dark-700">
+                            <div className="h-1 w-full overflow-hidden rounded-full bg-panel">
                                 <div
-                                    className="h-full bg-primary-100 transition-[width] duration-200 ease-out"
+                                    className="h-full bg-accent transition-[width] duration-200 ease-out"
                                     style={{
                                         width:
                                             progressPercent === null
@@ -232,7 +232,7 @@ export function UpdateSettingsCard() {
                                     }}
                                 />
                             </div>
-                            <div className="mt-1 flex items-center justify-between text-[11px] text-dark-200">
+                            <div className="mt-1 flex items-center justify-between text-[11px] text-fg-subtle">
                                 <span>
                                     {progress
                                         ? `${formatBytes(progress.downloaded)}${
@@ -252,11 +252,11 @@ export function UpdateSettingsCard() {
                     )}
 
                     {status === "available" && releaseNotes && (
-                        <details className="mt-2 text-xs text-dark-100">
-                            <summary className="cursor-pointer select-none text-dark-200 hover:text-dark-50">
+                        <details className="mt-2 text-xs text-fg-muted">
+                            <summary className="cursor-pointer select-none text-fg-subtle hover:text-fg">
                                 Release notes
                             </summary>
-                            <pre className="mt-1.5 max-h-40 overflow-auto whitespace-pre-wrap rounded-xs bg-dark-900/60 p-2 font-sans text-[11px] leading-5 text-dark-100">
+                            <pre className="mt-1.5 max-h-40 overflow-auto whitespace-pre-wrap rounded-xs bg-overlay/60 p-2 font-sans text-[11px] leading-5 text-fg-muted">
                                 {releaseNotes}
                             </pre>
                         </details>

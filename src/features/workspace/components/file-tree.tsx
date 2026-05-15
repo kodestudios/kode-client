@@ -18,7 +18,7 @@ interface FileTreeProps {
 
 export function FileTree({ rootPath, rootName }: FileTreeProps) {
     return (
-        <div className="flex flex-col py-1 text-xs text-dark-50 select-none">
+        <div className="flex flex-col py-1 text-xs text-fg select-none">
             <FileTreeNode
                 entry={{
                     name: rootName,
@@ -111,7 +111,7 @@ function FileTreeNode({
             <>
                 <Row depth={depth} onClick={() => setIsOpen((value) => !value)}>
                     <Caret
-                        className="size-3 shrink-0 text-dark-300"
+                        className="size-3 shrink-0 text-fg-faint"
                         weight="bold"
                     />
                     <FileTypeIcon
@@ -152,7 +152,7 @@ function Row({ depth, onClick, children }: RowProps) {
             style={{ paddingLeft: indentPaddingLeft(depth) }}
             className={cn(
                 "flex w-full items-center gap-1.5 py-0.5 pr-2 text-left",
-                "text-dark-100 hover:bg-dark-800 hover:text-dark-50"
+                "text-fg-muted hover:bg-muted hover:text-fg"
             )}
         >
             {children}
@@ -173,8 +173,8 @@ function StatusRow({ depth, tone = "default", children }: StatusRowProps) {
             className={cn(
                 "py-0.5 pr-2 text-xs",
                 tone === "error" && "text-red-400",
-                tone === "muted" && "text-dark-400 italic",
-                tone === "default" && "text-dark-300"
+                tone === "muted" && "text-fg-disabled italic",
+                tone === "default" && "text-fg-faint"
             )}
         >
             {children}

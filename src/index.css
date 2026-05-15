@@ -42,30 +42,53 @@
 }
 @import "tailwindcss";
 
+/*
+ * Semantic theme tokens.
+ *
+ * The values declared here are baked-in defaults (kode-dark) and exist so
+ * Tailwind has stable colors to compile utilities against at build time.
+ * At runtime they are overridden on `:root` by `applyTheme()` whenever the
+ * user selects a different palette in Settings → Appearance.
+ *
+ * Naming convention:
+ *   - bg-*       surface backgrounds
+ *   - text-*     foreground / text colors (prefixed `fg-` for text shades)
+ *   - border-*   borders & outlines (prefixed `line-`)
+ *   - accent-*   the action / brand color
+ *
+ * Never hard-code `bg-dark-*` or `bg-primary-*` style classes in app code —
+ * always prefer these semantic tokens so light & dark themes both work.
+ */
 @theme {
-    --color-dark-50: #c9c9c9;
-    --color-dark-100: #b8b8b8;
-    --color-dark-200: #828282;
-    --color-dark-300: #696969;
-    --color-dark-400: #424242;
-    --color-dark-500: #3b3b3b;
-    --color-dark-600: #2e2e2e;
-    --color-dark-700: #242424;
-    --color-dark-800: #1f1f1f;
-    --color-dark-850: #1a1a1a;
-    --color-dark-900: #141414;
-    --color-dark-950: #111111;
+    /* Surfaces */
+    --color-canvas: #1f1f1f;
+    --color-panel: #242424;
+    --color-muted: #2e2e2e;
+    --color-strong: #3b3b3b;
+    --color-emphasis: #424242;
+    --color-elevated: #1a1a1a;
+    --color-overlay: #141414;
+    --color-sunken: #111111;
 
-    --color-primary-50: #ffffff;
-    --color-primary-100: #f9fafb;
-    --color-primary-200: #f3f4f6;
-    --color-primary-300: #e5e7eb;
-    --color-primary-400: #d1d5db;
-    --color-primary-500: #9ca3af;
-    --color-primary-600: #6b7280;
-    --color-primary-700: #4b5563;
-    --color-primary-800: #374151;
-    --color-primary-900: #1f2937;
+    /* Foreground / text */
+    --color-fg: #c9c9c9;
+    --color-fg-muted: #b8b8b8;
+    --color-fg-subtle: #828282;
+    --color-fg-faint: #696969;
+    --color-fg-disabled: #424242;
+    --color-on-accent: #111111;
+
+    /* Borders */
+    --color-line: #2e2e2e;
+    --color-line-strong: #3b3b3b;
+    --color-line-focus: #696969;
+
+    /* Accent */
+    --color-accent: #f9fafb;
+    --color-accent-hover: #e5e7eb;
+    --color-accent-active: #d1d5db;
+    --color-accent-subtle: #f3f4f6;
+    --color-accent-strong: #6b7280;
 }
 
 @layer base {
@@ -105,8 +128,8 @@ body,
 body {
     margin: 0;
     font-family: "Phantom", sans-serif;
-    background-color: var(--color-dark-800);
-    color: white;
+    background-color: var(--color-canvas);
+    color: var(--color-fg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;

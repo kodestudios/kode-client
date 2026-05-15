@@ -34,12 +34,12 @@ const SwitchRoot = React.forwardRef<HTMLButtonElement, SwitchProps>(
                 disabled={disabled}
                 className={cn(
                     "group relative inline-flex shrink-0 items-center rounded-full",
-                    "border border-dark-600 bg-dark-800",
+                    "border border-line bg-canvas",
                     "transition-colors duration-150 ease-out",
-                    "hover:border-dark-500",
-                    "data-[checked]:border-primary-600 data-[checked]:bg-primary-100",
-                    "data-[checked]:hover:bg-primary-200",
-                    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-dark-300 focus-visible:outline-offset-2",
+                    "hover:border-line-strong",
+                    "data-[checked]:border-accent-strong data-[checked]:bg-accent",
+                    "data-[checked]:hover:bg-accent-subtle",
+                    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-line-focus focus-visible:outline-offset-2",
                     "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40",
                     "disabled:cursor-not-allowed disabled:opacity-40",
                     rootSizeStyles[size],
@@ -49,9 +49,9 @@ const SwitchRoot = React.forwardRef<HTMLButtonElement, SwitchProps>(
             >
                 <BaseSwitch.Thumb
                     className={cn(
-                        "block rounded-full bg-dark-50 shadow-sm",
+                        "block rounded-full bg-fg shadow-sm",
                         "transition-all duration-200 ease-out",
-                        "data-[checked]:bg-dark-950",
+                        "data-[checked]:bg-on-accent",
                         thumbSizeStyles[size],
                         thumbClassName
                     )}

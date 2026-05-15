@@ -16,7 +16,7 @@ const inputSizeStyles: Record<Size, string> = {
     lg: "h-10 px-3 text-sm"
 };
 
-const adornmentColor = "text-dark-200";
+const adornmentColor = "text-fg-subtle";
 
 type BaseInputProps = React.ComponentProps<typeof BaseInput>;
 
@@ -30,10 +30,10 @@ export interface InputProps extends Omit<BaseInputProps, "className" | "size"> {
 }
 
 const baseSurface = [
-    "bg-dark-700 text-dark-50",
-    "border border-dark-600",
+    "bg-panel text-fg",
+    "border border-line",
     "transition-[background-color,border-color,color] duration-150 ease-out",
-    "hover:border-dark-500",
+    "hover:border-line-strong",
     "data-[invalid]:border-red-500 aria-invalid:border-red-500",
     "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
     "disabled:pointer-events-none disabled:opacity-50"
@@ -61,7 +61,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     className={cn(
                         "group relative inline-flex w-full items-center rounded-xs",
                         baseSurface,
-                        "focus-within:border-dark-400",
+                        "focus-within:border-line-focus",
                         "data-[invalid]:focus-within:border-red-500",
                         wrapperSizeStyles[size],
                         wrapperClassName
@@ -83,8 +83,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         disabled={disabled}
                         aria-invalid={invalid || undefined}
                         className={cn(
-                            "min-w-0 flex-1 bg-transparent text-dark-50 outline-none",
-                            "placeholder:text-dark-200",
+                            "min-w-0 flex-1 bg-transparent text-fg outline-none",
+                            "placeholder:text-fg-subtle",
                             "disabled:cursor-not-allowed",
                             className
                         )}
@@ -113,8 +113,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 className={cn(
                     "block w-full rounded-xs",
                     baseSurface,
-                    "placeholder:text-dark-200",
-                    "focus:border-dark-400 data-[focused]:border-dark-400",
+                    "placeholder:text-fg-subtle",
+                    "focus:border-line-focus data-[focused]:border-line-focus",
                     "data-[invalid]:focus:border-red-500",
                     "disabled:cursor-not-allowed",
                     inputSizeStyles[size],

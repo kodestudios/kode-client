@@ -18,8 +18,8 @@ type BaseTooltipViewportProps = React.ComponentProps<
 
 const popupBaseClassName = cn(
     "max-w-xs outline-none",
-    "bg-dark-700 text-dark-50",
-    "border border-dark-500/40",
+    "bg-panel text-fg",
+    "border border-line-strong/40",
     "rounded-xs shadow-md shadow-black/40",
     "px-2 py-1 text-xs font-medium leading-snug",
     "[transform-origin:var(--transform-origin)]",
@@ -159,7 +159,7 @@ const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(
                     <span className="flex items-center gap-2">
                         <span>{children}</span>
                         {keybind && (
-                            <kbd className="font-mono text-[10px] font-medium text-dark-300">
+                            <kbd className="font-mono text-[10px] font-medium text-fg-faint">
                                 {keybind}
                             </kbd>
                         )}

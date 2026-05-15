@@ -47,13 +47,13 @@ const CheckboxRoot = React.forwardRef<HTMLButtonElement, CheckboxProps>(
                 disabled={disabled}
                 className={cn(
                     "inline-flex shrink-0 items-center justify-center rounded-xs",
-                    "bg-dark-700 border border-dark-500",
+                    "bg-panel border border-line-strong",
                     "transition-[background-color,border-color,transform] duration-150 ease-out",
-                    "hover:bg-dark-600 hover:border-dark-400 active:scale-[0.98]",
-                    "data-[checked]:bg-primary-100 data-[checked]:text-dark-950 data-[checked]:border-primary-100",
-                    "data-[checked]:hover:bg-primary-300 data-[checked]:hover:border-primary-300",
-                    "data-[indeterminate]:bg-primary-100 data-[indeterminate]:text-dark-950 data-[indeterminate]:border-primary-100",
-                    "data-[indeterminate]:hover:bg-primary-200 data-[indeterminate]:hover:border-primary-200",
+                    "hover:bg-muted hover:border-line-focus active:scale-[0.98]",
+                    "data-[checked]:bg-accent data-[checked]:text-on-accent data-[checked]:border-accent",
+                    "data-[checked]:hover:bg-accent-hover data-[checked]:hover:border-accent-hover",
+                    "data-[indeterminate]:bg-accent data-[indeterminate]:text-on-accent data-[indeterminate]:border-accent",
+                    "data-[indeterminate]:hover:bg-accent-subtle data-[indeterminate]:hover:border-accent-subtle",
                     "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[disabled]:active:scale-100",
                     "disabled:pointer-events-none disabled:opacity-50 disabled:active:scale-100",
                     sizeStyles[size],
@@ -111,7 +111,7 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
             <BaseCheckboxGroup
                 ref={ref}
                 className={cn(
-                    "flex text-sm text-primary-200",
+                    "flex text-sm text-fg",
                     "data-[disabled]:opacity-50",
                     orientationStyles[orientation],
                     className

@@ -26,9 +26,9 @@ export function SettingsItem({
             )}
         >
             <div className={cn("min-w-0 flex-1", contentClassName)}>
-                <div className="text-sm font-medium text-dark-50">{title}</div>
+                <div className="text-sm font-medium text-fg">{title}</div>
                 {description && (
-                    <div className="mt-1 text-xs leading-5 text-dark-200">
+                    <div className="mt-1 text-xs leading-5 text-fg-subtle">
                         {description}
                     </div>
                 )}

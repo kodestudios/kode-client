@@ -83,7 +83,7 @@ const SliderLabel = React.forwardRef<HTMLDivElement, SliderLabelProps>(
         <BaseSlider.Label
             ref={ref}
             className={cn(
-                "block text-xs font-medium text-dark-100 select-none",
+                "block text-xs font-medium text-fg-muted select-none",
                 className
             )}
             {...props}
@@ -102,7 +102,7 @@ const SliderValue = React.forwardRef<HTMLOutputElement, SliderValueProps>(
         <BaseSlider.Value
             ref={ref}
             className={cn(
-                "inline-block text-xs tabular-nums text-dark-200 select-none",
+                "inline-block text-xs tabular-nums text-fg-subtle select-none",
                 className
             )}
             {...props}
@@ -150,7 +150,7 @@ const SliderTrack = React.forwardRef<HTMLDivElement, SliderTrackProps>(
                 ref={ref}
                 className={cn(
                     "relative rounded-full",
-                    "bg-dark-700 border border-dark-600",
+                    "bg-panel border border-line",
                     "transition-[border-color] duration-150 ease-out",
                     "data-[orientation=horizontal]:w-full",
                     "data-[orientation=vertical]:h-full",
@@ -174,9 +174,9 @@ const SliderIndicator = React.forwardRef<HTMLDivElement, SliderIndicatorProps>(
         <BaseSlider.Indicator
             ref={ref}
             className={cn(
-                "rounded-full bg-primary-100",
+                "rounded-full bg-accent",
                 "transition-colors duration-150 ease-out",
-                "data-[disabled]:bg-dark-400",
+                "data-[disabled]:bg-emphasis",
                 className
             )}
             {...props}
@@ -197,11 +197,11 @@ const SliderThumb = React.forwardRef<HTMLDivElement, SliderThumbProps>(
             <BaseSlider.Thumb
                 ref={ref}
                 className={cn(
-                    "rounded-full bg-primary-100",
+                    "rounded-full bg-accent",
                     "transition-transform duration-150 ease-out",
                     "data-[dragging]:scale-110",
-                    "has-[input:focus-visible]:outline-4 has-[input:focus-visible]:outline-primary-100/20",
-                    "data-[disabled]:bg-dark-300 data-[disabled]:shadow-none data-[disabled]:cursor-not-allowed",
+                    "has-[input:focus-visible]:outline-4 has-[input:focus-visible]:outline-accent/20",
+                    "data-[disabled]:bg-fg-faint data-[disabled]:shadow-none data-[disabled]:cursor-not-allowed",
                     thumbSizeStyles[size],
                     className
                 )}

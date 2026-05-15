@@ -19,7 +19,7 @@ export function FileMenu() {
     return (
         <Menu>
             <Menu.Trigger
-                className="cursor-pointer rounded-xs px-2 py-0.5 text-xs text-dark-100 outline-none transition-colors hover:bg-dark-700 hover:text-dark-50 data-[popup-open]:bg-dark-700 data-[popup-open]:text-dark-50"
+                className="cursor-pointer rounded-xs px-2 py-0.5 text-xs text-fg-muted outline-none transition-colors hover:bg-panel hover:text-fg data-[popup-open]:bg-panel data-[popup-open]:text-fg"
                 onMouseDown={(event) => event.stopPropagation()}
                 onDoubleClick={(event) => event.stopPropagation()}
             >
@@ -64,7 +64,7 @@ function FileMenuItem({
         >
             <span>{label}</span>
             {shortcut && (
-                <span className="ml-auto font-mono text-[10px] text-dark-300">
+                <span className="ml-auto font-mono text-[10px] text-fg-faint">
                     {formatShortcut(shortcut)}
                 </span>
             )}

@@ -1,0 +1,33 @@
+{
+    "id": "kode-dark",
+    "name": "Kode Dark",
+    "description": "The signature Kode look — deep neutrals with a clean off-white accent.",
+    "appearance": "dark",
+    "colors": {
+        "canvas": "#1f1f1f",
+        "panel": "#242424",
+        "muted": "#2e2e2e",
+        "strong": "#3b3b3b",
+        "emphasis": "#424242",
+        "elevated": "#1a1a1a",
+        "overlay": "#141414",
+        "sunken": "#111111",
+
+        "fg": "#c9c9c9",
+        "fg-muted": "#b8b8b8",
+        "fg-subtle": "#828282",
+        "fg-faint": "#696969",
+        "fg-disabled": "#424242",
+        "on-accent": "#111111",
+
+        "line": "#2e2e2e",
+        "line-strong": "#3b3b3b",
+        "line-focus": "#696969",
+
+        "accent": "#f9fafb",
+        "accent-hover": "#e5e7eb",
+        "accent-active": "#d1d5db",
+        "accent-subtle": "#f3f4f6",
+        "accent-strong": "#6b7280"
+    }
+}

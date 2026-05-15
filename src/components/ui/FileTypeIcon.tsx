@@ -6,8 +6,8 @@ import {
 import { getIcon } from "material-file-icons";
 import { cn } from "@/lib/cn";
 
-const MONOCHROME_COLOR = "text-dark-200";
-const FOLDER_COLOR = "text-dark-100";
+const MONOCHROME_COLOR = "text-fg-subtle";
+const FOLDER_COLOR = "text-fg-muted";
 
 /**
  * Replace hardcoded colors in an SVG with `currentColor` so it inherits the

@@ -199,7 +199,7 @@ function HeaderIconButton({
     return (
         <button
             type="button"
-            className="flex size-6 items-center justify-center rounded-xs text-dark-100 transition-colors duration-150 hover:bg-dark-700 hover:text-dark-50 aria-pressed:text-dark-50"
+            className="flex size-6 items-center justify-center rounded-xs text-fg-muted transition-colors duration-150 hover:bg-panel hover:text-fg aria-pressed:text-fg"
             onClick={onClick}
             onMouseDown={(event) => event.stopPropagation()}
             onDoubleClick={(event) => event.stopPropagation()}
@@ -225,7 +225,7 @@ function WindowControlButton({
         <button
             type="button"
             className={cn(
-                "flex h-full w-10 items-center justify-center self-stretch text-dark-100 transition-colors duration-150 hover:bg-dark-900 hover:text-dark-50",
+                "flex h-full w-10 items-center justify-center self-stretch text-fg-muted transition-colors duration-150 hover:bg-overlay hover:text-fg",
                 danger &&
                     "hover:border-red-500/30 hover:bg-red-600 hover:text-white"
             )}

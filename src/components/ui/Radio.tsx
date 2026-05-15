@@ -49,12 +49,12 @@ const RadioRoot = React.forwardRef<HTMLButtonElement, RadioProps>(
                 disabled={disabled}
                 className={cn(
                     "inline-flex shrink-0 items-center justify-center rounded-full",
-                    "bg-dark-700 border border-dark-500",
+                    "bg-panel border border-line-strong",
                     "transition-[background-color,border-color,transform] duration-150 ease-out",
-                    "hover:bg-dark-600 hover:border-dark-400 active:scale-[0.98]",
-                    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-dark-300 focus-visible:outline-offset-2",
-                    "data-[checked]:bg-primary-100 data-[checked]:border-primary-100",
-                    "data-[checked]:hover:bg-primary-300 data-[checked]:hover:border-primary-300",
+                    "hover:bg-muted hover:border-line-focus active:scale-[0.98]",
+                    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-line-focus focus-visible:outline-offset-2",
+                    "data-[checked]:bg-accent data-[checked]:border-accent",
+                    "data-[checked]:hover:bg-accent-hover data-[checked]:hover:border-accent-hover",
                     "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[disabled]:active:scale-100",
                     "disabled:pointer-events-none disabled:opacity-50 disabled:active:scale-100",
                     rootSizeStyles[size],
@@ -65,7 +65,7 @@ const RadioRoot = React.forwardRef<HTMLButtonElement, RadioProps>(
                 <BaseRadio.Indicator
                     className={cn(
                         "inline-flex items-center justify-center",
-                        "before:block before:rounded-full before:bg-dark-950",
+                        "before:block before:rounded-full before:bg-on-accent",
                         "before:transition-transform before:duration-150 before:ease-out",
                         "data-[unchecked]:before:scale-0",
                         "data-[checked]:before:scale-100",
@@ -104,7 +104,7 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
                 <BaseRadioGroup
                     ref={ref}
                     className={cn(
-                        "flex text-sm text-primary-200",
+                        "flex text-sm text-fg",
                         "data-[disabled]:opacity-50",
                         orientationStyles[orientation],
                         className

@@ -27,7 +27,7 @@ type BaseMenuSubmenuTriggerProps = React.ComponentProps<
 
 const popupBaseClassName = cn(
     "min-w-[10rem] outline-none",
-    "bg-dark-850 text-dark-50 border border-dark-600",
+    "bg-elevated text-fg border border-line",
     "rounded-xs shadow-lg shadow-black/40",
     "p-1",
     "[transform-origin:var(--transform-origin)]",
@@ -38,22 +38,22 @@ const popupBaseClassName = cn(
 
 const itemBaseClassName = cn(
     "relative flex w-full cursor-pointer select-none items-center gap-2",
-    "rounded-xs px-2.5 py-1.5 text-xs text-dark-50 outline-none",
+    "rounded-xs px-2.5 py-1.5 text-xs text-fg outline-none",
     "transition-colors duration-100 ease-out",
-    "data-[highlighted]:bg-dark-700",
+    "data-[highlighted]:bg-panel",
     "data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 );
 
 const indicatorItemClassName = cn(
     "relative flex w-full cursor-pointer select-none items-center gap-2",
-    "rounded-xs py-1.5 pr-2.5 pl-7 text-xs text-dark-50 outline-none",
+    "rounded-xs py-1.5 pr-2.5 pl-7 text-xs text-fg outline-none",
     "transition-colors duration-100 ease-out",
-    "data-[highlighted]:bg-dark-700",
+    "data-[highlighted]:bg-panel",
     "data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 );
 
 const indicatorWrapperClassName = cn(
-    "absolute left-1.5 inline-flex size-4 shrink-0 items-center justify-center text-dark-50",
+    "absolute left-1.5 inline-flex size-4 shrink-0 items-center justify-center text-fg",
     "data-[unchecked]:hidden",
     "transition-opacity duration-100 ease-out",
     "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0"
@@ -206,7 +206,7 @@ const MenuSeparator = React.forwardRef<HTMLDivElement, MenuSeparatorProps>(
     ({ className, ...props }, ref) => (
         <BaseMenu.Separator
             ref={ref}
-            className={cn("-mx-1 my-1 h-px bg-dark-600", className)}
+            className={cn("-mx-1 my-1 h-px bg-line", className)}
             {...props}
         />
     )
@@ -228,7 +228,7 @@ const MenuGroupLabel = React.forwardRef<HTMLDivElement, MenuGroupLabelProps>(
         <BaseMenu.GroupLabel
             ref={ref}
             className={cn(
-                "px-2 py-1 text-[11px] font-medium text-dark-200",
+                "px-2 py-1 text-[11px] font-medium text-fg-subtle",
                 className
             )}
             {...props}
@@ -310,7 +310,7 @@ const MenuSubmenuTrigger = React.forwardRef<
         ref={ref}
         className={cn(
             itemBaseClassName,
-            "data-[popup-open]:bg-dark-700",
+            "data-[popup-open]:bg-panel",
             inset && "pl-7",
             className
         )}
@@ -318,7 +318,7 @@ const MenuSubmenuTrigger = React.forwardRef<
     >
         {children}
         <CaretRightIcon
-            className="ml-auto size-3.5 shrink-0 text-dark-200"
+            className="ml-auto size-3.5 shrink-0 text-fg-subtle"
             aria-hidden
         />
     </BaseMenu.SubmenuTrigger>

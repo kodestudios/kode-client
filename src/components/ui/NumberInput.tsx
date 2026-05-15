@@ -23,13 +23,13 @@ const alignStyles: Record<Align, string> = {
     right: "text-right"
 };
 
-const adornmentColor = "text-dark-200";
+const adornmentColor = "text-fg-subtle";
 
 const baseSurface = [
-    "bg-dark-700 text-dark-50",
-    "border border-dark-600",
+    "bg-panel text-fg",
+    "border border-line",
     "transition-[background-color,border-color,color] duration-150 ease-out",
-    "hover:border-dark-500",
+    "hover:border-line-strong",
     "data-[invalid]:border-red-500 aria-invalid:border-red-500",
     "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
     "disabled:pointer-events-none disabled:opacity-50"
@@ -241,7 +241,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                     className={cn(
                         "group relative inline-flex w-full items-center rounded-xs",
                         baseSurface,
-                        "focus-within:border-dark-400",
+                        "focus-within:border-line-focus",
                         "data-[invalid]:focus-within:border-red-500",
                         wrapperSizeStyles[size],
                         wrapperClassName
@@ -261,8 +261,8 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                     <BaseInput
                         {...sharedInputProps}
                         className={cn(
-                            "min-w-0 flex-1 bg-transparent tabular-nums text-dark-50 outline-none",
-                            "placeholder:text-dark-200",
+                            "min-w-0 flex-1 bg-transparent tabular-nums text-fg outline-none",
+                            "placeholder:text-fg-subtle",
                             "disabled:cursor-not-allowed",
                             alignStyles[align],
                             className
@@ -289,8 +289,8 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
                 className={cn(
                     "block w-full rounded-xs tabular-nums",
                     baseSurface,
-                    "placeholder:text-dark-200",
-                    "focus:border-dark-400 data-[focused]:border-dark-400",
+                    "placeholder:text-fg-subtle",
+                    "focus:border-line-focus data-[focused]:border-line-focus",
                     "data-[invalid]:focus:border-red-500",
                     "disabled:cursor-not-allowed",
                     inputSizeStyles[size],

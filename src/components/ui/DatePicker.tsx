@@ -32,7 +32,7 @@ const triggerSizeStyles: Record<Size, string> = {
 
 const popupBaseClassName = cn(
     "outline-none",
-    "bg-dark-850 text-dark-50 border border-dark-600",
+    "bg-elevated text-fg border border-line",
     "rounded-xs shadow-lg shadow-black/40",
     "p-3",
     "[transform-origin:var(--transform-origin)]",
@@ -43,11 +43,11 @@ const popupBaseClassName = cn(
 
 const triggerBaseClassName = cn(
     "inline-flex w-full select-none items-center justify-between rounded-xs",
-    "bg-dark-700 text-dark-50 border border-dark-600",
+    "bg-panel text-fg border border-line",
     "transition-[background-color,border-color,color] duration-150 ease-out",
-    "hover:border-dark-500",
-    "data-[popup-open]:border-dark-400 data-[focused]:border-dark-400",
-    "focus-visible:border-dark-400",
+    "hover:border-line-strong",
+    "data-[popup-open]:border-line-focus data-[focused]:border-line-focus",
+    "focus-visible:border-line-focus",
     "data-[invalid]:border-red-500",
     "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
     "disabled:pointer-events-none disabled:opacity-50"
@@ -297,7 +297,7 @@ const DatePickerTrigger = React.forwardRef<
                 {leftIcon ?? (
                     showIcon && (
                         <CalendarBlankIcon
-                            className="size-3.5 shrink-0 text-dark-200"
+                            className="size-3.5 shrink-0 text-fg-subtle"
                             weight="regular"
                             aria-hidden
                         />
@@ -306,7 +306,7 @@ const DatePickerTrigger = React.forwardRef<
                 <span
                     className={cn(
                         "min-w-0 flex-1 truncate text-left",
-                        !hasValue && "text-dark-200"
+                        !hasValue && "text-fg-subtle"
                     )}
                 >
                     {children ?? (hasValue ? display : ctx.placeholder)}
@@ -319,7 +319,7 @@ const DatePickerTrigger = React.forwardRef<
                         onMouseDown={handleClear}
                         className={cn(
                             "ml-1 inline-flex size-4 shrink-0 items-center justify-center rounded-xs",
-                            "text-dark-200 hover:bg-dark-600 hover:text-dark-50",
+                            "text-fg-subtle hover:bg-muted hover:text-fg",
                             "transition-colors duration-100 ease-out"
                         )}
                     >
@@ -382,10 +382,10 @@ function CalendarHeader({
                 aria-label={getPrevLabel(view)}
                 className={cn(
                     "inline-flex size-7 shrink-0 items-center justify-center rounded-xs",
-                    "text-dark-100 outline-none",
+                    "text-fg-muted outline-none",
                     "transition-colors duration-100 ease-out",
-                    "hover:bg-dark-700 hover:text-dark-50",
-                    "focus-visible:bg-dark-700",
+                    "hover:bg-panel hover:text-fg",
+                    "focus-visible:bg-panel",
                     "disabled:pointer-events-none disabled:opacity-40"
                 )}
             >
@@ -405,10 +405,10 @@ function CalendarHeader({
                 }
                 className={cn(
                     "inline-flex h-7 min-w-0 flex-1 select-none items-center justify-center rounded-xs px-2",
-                    "text-sm font-medium text-dark-50 tabular-nums outline-none",
+                    "text-sm font-medium text-fg tabular-nums outline-none",
                     "transition-colors duration-100 ease-out",
                     canDrillUp &&
-                        "cursor-pointer hover:bg-dark-700 focus-visible:bg-dark-700",
+                        "cursor-pointer hover:bg-panel focus-visible:bg-panel",
                     !canDrillUp && "cursor-default"
                 )}
             >
@@ -421,10 +421,10 @@ function CalendarHeader({
                 aria-label={getNextLabel(view)}
                 className={cn(
                     "inline-flex size-7 shrink-0 items-center justify-center rounded-xs",
-                    "text-dark-100 outline-none",
+                    "text-fg-muted outline-none",
                     "transition-colors duration-100 ease-out",
-                    "hover:bg-dark-700 hover:text-dark-50",
-                    "focus-visible:bg-dark-700",
+                    "hover:bg-panel hover:text-fg",
+                    "focus-visible:bg-panel",
                     "disabled:pointer-events-none disabled:opacity-40"
                 )}
             >
@@ -485,7 +485,7 @@ function CalendarGrid({
         <div role="grid" aria-label={viewDate.format("MMMM YYYY")}>
             <div
                 role="row"
-                className="mb-1 grid grid-cols-7 gap-0.5 text-center text-[11px] font-medium text-dark-200"
+                className="mb-1 grid grid-cols-7 gap-0.5 text-center text-[11px] font-medium text-fg-subtle"
             >
                 {labels.map((label) => (
                     <div
@@ -522,15 +522,15 @@ function CalendarGrid({
                                 "text-xs tabular-nums outline-none",
                                 "transition-[background-color,border-color,color] duration-100 ease-out",
                                 inCurrentMonth
-                                    ? "text-dark-50"
-                                    : "text-dark-300",
-                                "hover:bg-dark-700",
-                                "focus-visible:border-dark-400",
-                                isToday && !isSelected && "border-dark-500",
+                                    ? "text-fg"
+                                    : "text-fg-faint",
+                                "hover:bg-panel",
+                                "focus-visible:border-line-focus",
+                                isToday && !isSelected && "border-line-strong",
                                 isSelected &&
-                                    "bg-primary-100 text-dark-950 hover:bg-primary-300",
+                                    "bg-accent text-on-accent hover:bg-accent-hover",
                                 disabled &&
-                                    "pointer-events-none text-dark-400 opacity-50"
+                                    "pointer-events-none text-fg-disabled opacity-50"
                             )}
                         >
                             {day.date()}
@@ -547,8 +547,8 @@ const cellBaseClassName = cn(
     "border border-transparent",
     "text-xs font-medium tabular-nums outline-none",
     "transition-[background-color,border-color,color] duration-100 ease-out",
-    "text-dark-50 hover:bg-dark-700",
-    "focus-visible:border-dark-400"
+    "text-fg hover:bg-panel",
+    "focus-visible:border-line-focus"
 );
 
 interface MonthGridProps {
@@ -597,11 +597,11 @@ function MonthGrid({ viewDate, selected, onSelect, min, max }: MonthGridProps) {
                         onClick={() => onSelect(m)}
                         className={cn(
                             cellBaseClassName,
-                            isCurrent && !isSelected && "border-dark-500",
+                            isCurrent && !isSelected && "border-line-strong",
                             isSelected &&
-                                "bg-primary-100 text-dark-950 hover:bg-primary-300",
+                                "bg-accent text-on-accent hover:bg-accent-hover",
                             disabled &&
-                                "pointer-events-none text-dark-400 opacity-50"
+                                "pointer-events-none text-fg-disabled opacity-50"
                         )}
                     >
                         {label}
@@ -655,11 +655,11 @@ function YearGrid({ viewDate, selected, onSelect, min, max }: YearGridProps) {
                         onClick={() => onSelect(y)}
                         className={cn(
                             cellBaseClassName,
-                            isCurrent && !isSelected && "border-dark-500",
+                            isCurrent && !isSelected && "border-line-strong",
                             isSelected &&
-                                "bg-primary-100 text-dark-950 hover:bg-primary-300",
+                                "bg-accent text-on-accent hover:bg-accent-hover",
                             disabled &&
-                                "pointer-events-none text-dark-400 opacity-50"
+                                "pointer-events-none text-fg-disabled opacity-50"
                         )}
                     >
                         {y}
@@ -890,17 +890,17 @@ const DatePickerCalendar = React.forwardRef<
                     />
                 )}
                 {(effectiveShowToday || effectiveShowClear) && (
-                    <div className="mt-3 flex items-center justify-between gap-2 border-t border-dark-600 pt-3">
+                    <div className="mt-3 flex items-center justify-between gap-2 border-t border-line pt-3">
                         {effectiveShowToday ? (
                             <button
                                 type="button"
                                 onClick={handleToday}
                                 className={cn(
                                     "inline-flex h-7 items-center justify-center rounded-xs px-2 text-xs font-medium",
-                                    "text-dark-100 outline-none",
+                                    "text-fg-muted outline-none",
                                     "transition-colors duration-100 ease-out",
-                                    "hover:bg-dark-700 hover:text-dark-50",
-                                    "focus-visible:bg-dark-700"
+                                    "hover:bg-panel hover:text-fg",
+                                    "focus-visible:bg-panel"
                                 )}
                             >
                                 Tänään
@@ -914,10 +914,10 @@ const DatePickerCalendar = React.forwardRef<
                                 onClick={handleClear}
                                 className={cn(
                                     "inline-flex h-7 items-center justify-center rounded-xs px-2 text-xs font-medium",
-                                    "text-dark-100 outline-none",
+                                    "text-fg-muted outline-none",
                                     "transition-colors duration-100 ease-out",
-                                    "hover:bg-dark-700 hover:text-dark-50",
-                                    "focus-visible:bg-dark-700"
+                                    "hover:bg-panel hover:text-fg",
+                                    "focus-visible:bg-panel"
                                 )}
                             >
                                 Tyhjennä

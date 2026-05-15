@@ -91,7 +91,7 @@ const NumberFieldScrubArea = React.forwardRef<
         direction={direction}
         className={cn(
             "inline-flex w-fit select-none items-center gap-1",
-            "text-xs font-medium text-dark-100",
+            "text-xs font-medium text-fg-muted",
             direction === "vertical"
                 ? "cursor-ns-resize"
                 : "cursor-ew-resize",
@@ -116,7 +116,7 @@ const NumberFieldScrubAreaCursor = React.forwardRef<
         ref={ref}
         className={cn(
             "pointer-events-none z-50 inline-flex items-center justify-center",
-            "text-dark-50 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]",
+            "text-fg drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]",
             className
         )}
         {...props}
@@ -141,11 +141,11 @@ const NumberFieldGroup = React.forwardRef<
             ref={ref}
             className={cn(
                 "inline-flex w-full select-none items-stretch overflow-hidden rounded-xs",
-                "bg-dark-700 text-dark-50 border border-dark-600",
+                "bg-panel text-fg border border-line",
                 "transition-[background-color,border-color,color] duration-150 ease-out",
-                "hover:border-dark-500",
-                "focus-within:border-dark-400",
-                "data-[scrubbing]:border-dark-400",
+                "hover:border-line-strong",
+                "focus-within:border-line-focus",
+                "data-[scrubbing]:border-line-focus",
                 "data-[invalid]:border-red-500 data-[invalid]:focus-within:border-red-500",
                 "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
                 groupSizeStyles[size],
@@ -159,13 +159,13 @@ NumberFieldGroup.displayName = "NumberField.Group";
 
 const stepperBaseClassName = cn(
     "inline-flex shrink-0 items-center justify-center",
-    "text-dark-100",
+    "text-fg-muted",
     "transition-colors duration-100 ease-out",
-    "hover:bg-dark-600 hover:text-dark-50",
-    "active:bg-dark-500",
-    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-dark-300 focus-visible:-outline-offset-2",
-    "disabled:cursor-not-allowed disabled:text-dark-300 disabled:hover:bg-transparent",
-    "data-[disabled]:cursor-not-allowed data-[disabled]:text-dark-300 data-[disabled]:hover:bg-transparent"
+    "hover:bg-muted hover:text-fg",
+    "active:bg-strong",
+    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-line-focus focus-visible:-outline-offset-2",
+    "disabled:cursor-not-allowed disabled:text-fg-faint disabled:hover:bg-transparent",
+    "data-[disabled]:cursor-not-allowed data-[disabled]:text-fg-faint data-[disabled]:hover:bg-transparent"
 );
 
 // Wrapping a NumberField inside a <label> (e.g. a generic field/label wrapper)
@@ -212,7 +212,7 @@ const NumberFieldDecrement = React.forwardRef<
             }}
             className={cn(
                 stepperBaseClassName,
-                "border-r border-dark-600",
+                "border-r border-line",
                 stepperSizeStyles[size],
                 className
             )}
@@ -249,7 +249,7 @@ const NumberFieldIncrement = React.forwardRef<
             }}
             className={cn(
                 stepperBaseClassName,
-                "border-l border-dark-600",
+                "border-l border-line",
                 stepperSizeStyles[size],
                 className
             )}
@@ -282,8 +282,8 @@ const NumberFieldInput = React.forwardRef<
             ref={ref}
             className={cn(
                 "min-w-0 flex-1 self-stretch bg-transparent",
-                "text-center tabular-nums text-dark-50 outline-none",
-                "placeholder:text-dark-200",
+                "text-center tabular-nums text-fg outline-none",
+                "placeholder:text-fg-subtle",
                 "disabled:cursor-not-allowed",
                 inputPaddingStyles[size],
                 className

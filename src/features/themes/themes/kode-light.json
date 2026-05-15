@@ -1,0 +1,33 @@
+{
+    "id": "kode-light",
+    "name": "Kode Light",
+    "description": "Bright, paper-like surfaces with crisp ink-dark text and a strong charcoal accent.",
+    "appearance": "light",
+    "colors": {
+        "canvas": "#f7f7f8",
+        "panel": "#ffffff",
+        "muted": "#eef0f3",
+        "strong": "#dfe3e8",
+        "emphasis": "#c8ced6",
+        "elevated": "#ffffff",
+        "overlay": "#eef0f3",
+        "sunken": "#e9ecf0",
+
+        "fg": "#111111",
+        "fg-muted": "#1f2937",
+        "fg-subtle": "#4b5563",
+        "fg-faint": "#6b7280",
+        "fg-disabled": "#9ca3af",
+        "on-accent": "#f9fafb",
+
+        "line": "#e1e4ea",
+        "line-strong": "#c8ced6",
+        "line-focus": "#9ca3af",
+
+        "accent": "#111827",
+        "accent-hover": "#1f2937",
+        "accent-active": "#0b1220",
+        "accent-subtle": "#374151",
+        "accent-strong": "#4b5563"
+    }
+}

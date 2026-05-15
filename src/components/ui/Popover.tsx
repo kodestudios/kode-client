@@ -23,7 +23,7 @@ type BasePopoverViewportProps = React.ComponentProps<
 
 const popupBaseClassName = cn(
     "min-w-[12rem] outline-none",
-    "bg-dark-850 text-dark-50 border border-dark-600",
+    "bg-elevated text-fg border border-line",
     "rounded-xs shadow-lg shadow-black/40",
     "p-3",
     "[transform-origin:var(--transform-origin)]",
@@ -165,7 +165,7 @@ const PopoverTitle = React.forwardRef<HTMLHeadingElement, PopoverTitleProps>(
     ({ className, ...props }, ref) => (
         <BasePopover.Title
             ref={ref}
-            className={cn("m-0 text-sm font-medium text-dark-50", className)}
+            className={cn("m-0 text-sm font-medium text-fg", className)}
             {...props}
         />
     )
@@ -183,7 +183,7 @@ const PopoverDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <BasePopover.Description
         ref={ref}
-        className={cn("mt-1 mb-0 text-xs text-dark-200", className)}
+        className={cn("mt-1 mb-0 text-xs text-fg-subtle", className)}
         {...props}
     />
 ));
@@ -199,9 +199,9 @@ const PopoverClose = React.forwardRef<HTMLButtonElement, PopoverCloseProps>(
         <BasePopover.Close
             ref={ref}
             className={cn(
-                "inline-flex items-center justify-center rounded-xs px-2 py-1 text-xs text-dark-50 outline-none",
+                "inline-flex items-center justify-center rounded-xs px-2 py-1 text-xs text-fg outline-none",
                 "transition-colors duration-100 ease-out",
-                "hover:bg-dark-700 focus-visible:bg-dark-700",
+                "hover:bg-panel focus-visible:bg-panel",
                 className
             )}
             {...props}
